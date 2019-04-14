@@ -8,6 +8,11 @@ const hbs = require("hbs");
 const mongoose = require("mongoose");
 const logger = require("morgan");
 const path = require("path");
+// for sessions
+const session = require("express-session");
+const MongoStore = require("connect-mongo")(session);
+const passport = require("./helpers/passport");
+const flash = require("connect-flash");
 
 mongoose
   .connect(process.env.DB, { useNewUrlParser: true })
@@ -32,6 +37,24 @@ app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+// to use flash messages
+app.use(flash());
+
+app.use(session({
+  secret: process.env.SECRET,
+  resave: false,
+  saveUninitialized: true,
+  // duracion de la sesion - 1 hora
+  cookie: { maxAge: 3600000 },
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection,
+    ttl: 24 * 60 * 60 // 1 day
+  })
+}))
+
+// siempre debajo de la configuracion de la sesion
+app.use(passport.initialize());
+app.use(passport.session())
 
 // Express View engine setup
 
@@ -53,5 +76,9 @@ app.locals.title = "TapCarAds";
 
 const index = require("./routes/index");
 app.use("/", index);
+const admin = require("./routes/admin");
+app.use("/admin", admin);
+const admprivate = require("./routes/admprivate");
+app.use("/admprivate", admprivate);
 
 module.exports = app;

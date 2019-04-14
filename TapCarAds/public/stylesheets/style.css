@@ -7,6 +7,12 @@ body {
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
 
 a {
-  color: #00B7FF; }
+  color: #00b7ff; }
+
+form.auth-form input:invalid {
+  box-shadow: 0 0 4px 1px red; }
+
+form.auth-form input:focus:invalid {
+  box-shadow: none; }
 
 /*# sourceMappingURL=style.css.map */
