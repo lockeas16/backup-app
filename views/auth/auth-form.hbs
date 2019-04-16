@@ -1,0 +1,75 @@
+<section class="uk-section">
+  <div class="uk-container">
+    <div class="uk-flex uk-flex-center uk-flex-column">
+      <h2 class="uk-heading uk-flex uk-flex-center">
+        {{#if login}}
+        Login
+        {{else}}
+        Register
+        {{/if}}
+      </h2>
+      <form class="uk-text-center auth-form" {{#if login}} action="/auth/login" {{else}} action="/auth/register"
+        {{/if}} method="POST">
+        {{#unless login}}
+        <div class="uk-margin">
+          <div class="uk-inline">
+            <span class="uk-form-icon" uk-icon="icon: user"></span>
+            <input class="uk-input" type="text" name="name" placeholder="Your name" value="{{name}}" required>
+          </div>
+        </div>
+        {{/unless}}
+
+        <div class="uk-margin">
+          <div class="uk-inline">
+            <span class="uk-form-icon" uk-icon="icon: mail"></span>
+            <input class="uk-input" type="email" name="email" placeholder="Your email" value="{{email}}" required>
+          </div>
+        </div>
+
+        <div class="uk-margin">
+          <div class="uk-inline">
+            <span class="uk-form-icon" uk-icon="icon: lock"></span>
+            <input class="uk-input" type="password" name="password" placeholder="Your password" required>
+          </div>
+        </div>
+
+        {{#unless login}}
+        <div class="uk-margin">
+          <div class="uk-inline">
+            <span class="uk-form-icon" uk-icon="icon: lock"></span>
+            <input class="uk-input" type="password" name="passwordConfirm" placeholder="Confirm password" required>
+          </div>
+        </div>
+        {{/unless}}
+
+        {{#if err}}
+        <div class="uk-alert-danger uk-width-1-3 uk-margin-auto" uk-alert>
+          <p>{{err}}</p>
+        </div>
+        {{/if}}
+        <button class="uk-button uk-button-primary">
+          {{#if login}}
+          Login
+          {{else}}
+          Register
+          {{/if}}
+        </button>
+
+        {{#if login}}
+        <div class="uk-margin">
+          <div class="uk-inline">
+            <a class="uk-button uk-button-link" href="/auth/register">Don't have an account yet? Sign Up!</a>
+          </div>
+        </div>
+        {{else}}
+        <div class="uk-margin">
+          <div class="uk-inline">
+            <a class="uk-button uk-button-link" href="/auth/login">Sign in</a>
+          </div>
+        </div>
+        {{/if}}
+
+      </form>
+    </div>
+  </div>
+</section>

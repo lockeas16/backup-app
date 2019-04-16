@@ -14,11 +14,11 @@ const userSchema = new Schema(
     lastname: {
       type: String
     },
-    role:{
-      type:String,
-      required:true,
-      enum:["ADMIN","PUBLICIST"],
-      default:"PUBLICIST"
+    role: {
+      type: String,
+      required: true,
+      enum: ["ADMIN", "PUBLICIST"],
+      default: "PUBLICIST"
     },
     email: {
       type: String,
@@ -31,16 +31,27 @@ const userSchema = new Schema(
     },
     image: {
       type: String
+    },
+    confirmationCode: {
+      type: String,
+      unique: true
+    },
+    active: {
+      type: Boolean,
+      default: false
     }
   },
   { timestamps: true }
 );
 
-// conectar el plugin
 userSchema.plugin(passportLocalMongoose, {
-  // le decimos cual va a ser el email, porque toma username por defecto
   usernameField: "email",
-  // le indicamos donde va a guardar el password
-  hashField: "password"
+  hashField: "password",
+  // function to query only active users on authenticate
+  findByUsername: function(model, queryParameters) {
+    // Add additional query parameter - AND condition - active: true
+    queryParameters.active = true;
+    return model.findOne(queryParameters);
+  }
 });
 module.exports = mongoose.model("User", userSchema);
