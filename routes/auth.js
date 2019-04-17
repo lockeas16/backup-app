@@ -24,6 +24,7 @@ router.post(
     // ITS A MUST TO SAVE BEFORE REDIRECTING, ASYNCHRONOUS PROCESSING DOESNT
     // WAIT FOR THE SESSION TO SAVE
     req.session.save(() => {
+      console.log(req.user);
       res.redirect("/private");
     });
   }
