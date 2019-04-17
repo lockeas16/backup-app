@@ -27,7 +27,7 @@ router.post(
 router.get("/register", (req, res, next) => {
   User.findOne({ role: "ADMIN" }).then(user => {
     if (!user) res.render("admin/auth-form");
-    else res.redirect("/admin/login");
+    else res.redirect("/auth/login");
   });
 });
 

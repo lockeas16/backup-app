@@ -25,7 +25,8 @@ router.post(
     // WAIT FOR THE SESSION TO SAVE
     req.session.save(() => {
       console.log(req.user);
-      res.redirect("/private");
+      if (req.user.role === "ADMIN") res.redirect("/admprivate");
+      else res.redirect("/private");
     });
   }
 );
