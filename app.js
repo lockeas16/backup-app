@@ -80,5 +80,9 @@ const admin = require("./routes/admin");
 app.use("/admin", admin);
 const admprivate = require("./routes/admprivate");
 app.use("/admprivate", admprivate);
+const auth = require("./routes/auth");
+app.use("/auth", auth);
+const dashboard = require("./routes/dashboard");
+app.use("/dashboard", dashboard);
 
 module.exports = app;

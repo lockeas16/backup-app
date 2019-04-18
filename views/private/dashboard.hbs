@@ -1,0 +1,49 @@
+<nav class="uk-navbar-container" uk-navbar>
+    <div class="uk-navbar-left">
+        <ul class="uk-navbar-nav">
+            <li class="uk-active"><a href="#">Dashboard</a></li>
+        </ul>
+    </div>
+    <div class="uk-navbar-right">
+        <ul class="uk-navbar-nav">
+            <li>
+                <a href="#">Profile</a>
+                <div class="uk-navbar-dropdown">
+                    <ul class="uk-nav uk-navbar-dropdown-nav">
+                        <li class="uk-active"><a href="/profile/{{user._id}}/edit">My account</a></li>
+                        <li class="uk-nav-divider"></li>
+                        <li><a href="/auth/logout">Logout</a></li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+
+<section class="uk-section">
+  <div class="uk-container">
+    <div class="uk-grid-match" uk-grid>
+      <div class="uk-width-expand">
+        <div>
+          <div>
+            <a href="/campaign/new" class="uk-button uk-button-primary">Create campaign</a>
+          </div>
+          <div class="uk-section-small">
+            <div class="uk-grid-match uk-child-width-1-3 uk-grid-small" uk-grid>
+              {{#each campaigns as |campaign|}}
+              {{> campaignCard campaign}}
+              {{/each}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="uk-width-1-3">
+        <div>
+          <h1>Analytics</h1>
+        Aquí va el mapa y las analíticas principales
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
