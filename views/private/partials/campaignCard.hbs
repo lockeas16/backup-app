@@ -1,0 +1,33 @@
+<div>
+  <div class="uk-card uk-card-default">
+    <div class="uk-card-media-top">
+      <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slideshow="animation: fade">
+
+        <ul class="uk-slideshow-items">
+          {{#each this.ads as |ad|}}
+          <li>
+            <img src="{{ad}}" alt="" uk-cover>
+          </li>
+          {{/each}}
+        </ul>
+
+        <a class="uk-position-center-left uk-position-small uk-hidden-hover" href="#" uk-slidenav-previous
+          uk-slideshow-item="previous"></a>
+        <a class="uk-position-center-right uk-position-small uk-hidden-hover" href="#" uk-slidenav-next
+          uk-slideshow-item="next"></a>
+
+      </div>
+    </div>
+    <div class="uk-card-body uk-padding-small">
+      <h3 class="uk-card-title">{{this.title}}</h3>
+      <p>Fecha inicio: <span class="uk-label">{{this.startDate}}</span></p>
+      <p>Fecha fin: <span class="uk-label">{{this.endDate}}</span></p>
+    </div>
+    {{#ifCond user._id this.owner}}
+    <div class="uk-card-footer">
+      <a href="/campaign/{{this._id}}/edit" class="uk-button uk-button-text">Edit</a>
+    </div>
+    {{/ifCond}}
+  </div>
+
+</div>

@@ -82,7 +82,7 @@ const admprivate = require("./routes/admprivate");
 app.use("/admprivate", admprivate);
 const auth = require("./routes/auth");
 app.use("/auth", auth);
-const private = require("./routes/private");
-app.use("/private", private);
+const dashboard = require("./routes/dashboard");
+app.use("/dashboard", dashboard);
 
 module.exports = app;
