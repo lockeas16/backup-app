@@ -13,6 +13,28 @@ const helpers = require("../helpers/functions");
 //     });
 // });
 
+
+
+router.get("/new", helpers.isAuth, (req, res) => {
+  const { user } = req;
+  res.render("private/new-campaign", { user });
+});
+
+router.post("/new", helpers.isAuth, uploader.array("images"), (req, res) => {
+  let images = req.files.map(file => file.url);
+  let { _id: owner } = req.user;
+  let { lat, lng, address, ...property } = req.body;
+  let zones = { address, coordinates: [lat, lng] };
+  campaign = { ...campaign, ads, owner, zones };
+  Campaign.create(campaign)
+    .then(() => {
+      res.redirect("/dashboard");
+    })
+    .catch(err => {
+      res.render("new-campaign", { err });
+    });
+});
+
 router.get("/:id/edit", (req, res) => {
   const { id } = req.params;
   const { user } = req;
@@ -36,25 +58,5 @@ router.post(
     );
   }
 );
-
-router.get("/new", helpers.isAuth, (req, res) => {
-  const { user } = req;
-  res.render("new-campaign", { user });
-});
-
-router.post("/new", helpers.isAuth, uploader.array("images"), (req, res) => {
-  let images = req.files.map(file => file.url);
-  let { _id: owner } = req.user;
-  let { lat, lng, address, ...property } = req.body;
-  let zones = { address, coordinates: [lat, lng] };
-  campaign = { ...campaign, ads, owner, zones };
-  Campaign.create(campaign)
-    .then(() => {
-      res.redirect("/dashboard");
-    })
-    .catch(err => {
-      res.render("new-campaign", { err });
-    });
-});
 
 module.exports = router;
