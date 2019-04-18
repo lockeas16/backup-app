@@ -25,7 +25,7 @@ router.post(
     // WAIT FOR THE SESSION TO SAVE
     req.session.save(() => {
       console.log(req.user);
-      res.redirect("/private");
+      res.redirect("/dashboard");
     });
   }
 );
