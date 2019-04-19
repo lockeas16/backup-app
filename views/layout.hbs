@@ -28,6 +28,28 @@
 
 <body>
 
+<nav class="uk-navbar-container" uk-navbar>
+    <div class="uk-navbar-left">
+        <ul class="uk-navbar-nav">
+            <li class="uk-active" uk-toggle="target: #offcanvas-slide"><a href="#">Dashboard</a></li>
+        </ul>
+    </div>
+    <div class="uk-navbar-right">
+        <ul class="uk-navbar-nav">
+            <li>
+                <a href="#">Profile</a>
+                <div class="uk-navbar-dropdown">
+                    <ul class="uk-nav uk-navbar-dropdown-nav">
+                        <li class="uk-active"><a href="/profile/{{user._id}}/edit">My account</a></li>
+                        <li class="uk-nav-divider"></li>
+                        <li><a href="/auth/logout">Logout</a></li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>
+
   {{{body}}}
 
   <!-- UIkit JS -->
