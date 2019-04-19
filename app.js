@@ -86,5 +86,7 @@ const dashboard = require("./routes/dashboard");
 app.use("/dashboard", dashboard);
 const campaign = require("./routes/campaign");
 app.use("/campaign", campaign)
+const zones = require("./routes/zones");
+app.use("/zones", zones)
 
 module.exports = app;
