@@ -1,18 +1,20 @@
 <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js'></script>
 <script src='https://api.tiles.mapbox.com/mapbox.js/plugins/turf/v3.0.11/turf.min.js'></script>
 <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.js'></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css' rel='stylesheet' />
 <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.css'
   type='text/css' />
 
 <section class="uk-section">
   <div class="uk-container">
-    <form action="/zones/new" method="post">
+    <form action="" method="POST">
       <div class="uk-margin">
-          <div>
-            <input class="uk-input" type="text" name="name" placeholder="Zone name" value="{{name}}" required>
-          </div>
+        <div>
+          <input id="zoneName" class="uk-input" type="text" name="name" placeholder="Zone name" value="{{name}}"
+            required>
         </div>
+      </div>
       <div id='map' style='width: 100%; height: 600px;'></div>
       <div class='calculation-box uk-margin-top'>
         <p>Total Area</p>
@@ -21,55 +23,15 @@
       <div class="uk-flex uk-flex-center uk-margin-top">
         <div class="uk-margin">
           <div class="uk-inline">
-            <button id="zoneBtn" class="uk-button uk-button-primary">
+            <button id="zoneBtn" class="uk-button uk-button-primary" type="submit">
               Create zone
             </button>
           </div>
         </div>
+      </div>
     </form>
-  </div>
   </div>
 </section>
 
-<script>
-  let btn = document.getElementById("zoneBtn");
-  btn.disabled = true;
-  mapboxgl.accessToken = 'pk.eyJ1IjoibG9ja2VhczE2IiwiYSI6ImNqdTBsdzNsaDJuNDU0ZW1wdDhsemh1ZWgifQ.Eb6eV0uCOFbUPAEvSFGAFg';
-  /* eslint-disable */
-  var map = new mapboxgl.Map({
-    container: 'map', // container id
-    style: 'mapbox://styles/mapbox/light-v10', //hosted style id
-    center: [-99.1350, 19.4294], // starting position
-    zoom: 12 // starting zoom
-  });
-
-  var draw = new MapboxDraw({
-    displayControlsDefault: false,
-    controls: {
-      polygon: true,
-      trash: true
-    }
-  });
-  map.addControl(draw);
-
-  map.on('draw.create', updateArea);
-  map.on('draw.delete', updateArea);
-  map.on('draw.update', updateArea);
-
-  function updateArea(e) {
-    var data = draw.getAll();
-    var answer = document.getElementById('calculated-area');
-    if (data.features.length > 0) {
-      console.log(data);
-      btn.disabled = false;
-      var area = turf.area(data);
-      // restrict to area to 2 decimal points
-      var rounded_area = Math.round(area * 100) / 100;
-      answer.innerHTML = '<p><strong>' + rounded_area + '</strong> square meters</p>';
-    } else {
-      answer.innerHTML = '';
-      if (e.type !== 'draw.delete') alert("Use the draw tools to draw a polygon!");
-    }
-  }
-
-</script>
+<script src="/javascripts/FormHandler.js"></script>
+<script src="/javascripts/zoneForm.js"></script>
