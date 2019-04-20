@@ -1,5 +1,6 @@
+// zoneId and coordinates were previously created through Handle Bars
 // TODO: change baseUrl for heroku!
-const zoneHandler = new FormHandler();
+const zoneHandler = new ZoneHandler();
 let btn = document.getElementById("zoneBtn");
 btn.disabled = true;
 mapboxgl.accessToken =
@@ -21,10 +22,21 @@ let draw = new MapboxDraw({
 });
 
 map.addControl(draw);
+if (zoneId){
+  // to add a polygon, it must be after adding the control to the map
+  draw.add(createPolygon(coordinates));
+}
 map.on("draw.create", updateArea);
 map.on("draw.delete", updateArea);
 map.on("draw.update", updateArea);
 document.addEventListener("submit", handleSubmit);
+
+function createPolygon(coords) {
+  return {
+    type: "Polygon",
+    coordinates: coords
+  };
+}
 
 function createBody(data) {
   let obj = {};
@@ -52,9 +64,13 @@ function updateArea() {
 function handleSubmit(e) {
   e.preventDefault();
   const body = createBody(draw.getAll());
-  console.log(body);
-  zoneHandler.createZone(body);
-  /*.then(res => {
-    window.location.replace("/zones");
-  });*/
+  if (zoneId) {
+    zoneHandler.updateZone(zoneId, body).then(res => {
+      window.location.replace("/zones");
+    });
+  } else {
+    zoneHandler.createZone(body).then(res => {
+      window.location.replace("/zones");
+    });
+  }
 }

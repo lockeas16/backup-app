@@ -1,7 +1,6 @@
 <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js'></script>
 <script src='https://api.tiles.mapbox.com/mapbox.js/plugins/turf/v3.0.11/turf.min.js'></script>
 <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.js'></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css' rel='stylesheet' />
 <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.0.9/mapbox-gl-draw.css'
   type='text/css' />
@@ -24,7 +23,11 @@
         <div class="uk-margin">
           <div class="uk-inline">
             <button id="zoneBtn" class="uk-button uk-button-primary" type="submit">
+              {{#if id}}
+              Edit Zone
+              {{else}}
               Create zone
+              {{/if}}
             </button>
           </div>
         </div>
@@ -33,5 +36,19 @@
   </div>
 </section>
 
-<script src="/javascripts/FormHandler.js"></script>
+<script src="/javascripts/ZoneHandler.js"></script>
+<script>
+  let zoneId="{{id}}";
+  //Transform data from handle bats into a useful coordinates array
+  let cadena = "{{area.coordinates}}";
+  let coordinates = [];
+  let aux = cadena.split(",");
+  for (let index = 0; index < aux.length; index += 2) {
+    let coord = [];
+    coord.push(parseFloat(aux[index]));
+    coord.push(parseFloat(aux[index + 1]));
+    coordinates.push(coord);
+  }
+  coordinates = [[...coordinates]];
+</script>
 <script src="/javascripts/zoneForm.js"></script>

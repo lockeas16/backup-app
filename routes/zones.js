@@ -6,7 +6,16 @@ const Zone = require("../models/Zone");
 router.use(helpers.isAuth);
 
 router.get("/", (req, res) => {
-  res.render("private/zones");
+  const { id } = req.user;
+  const { user } = req;
+  Zone.find({ owner: id }, "_id")
+    .then(zones => {
+      console.log(zones);
+      res.render("private/zones", { user, zones });
+    })
+    .catch(err => {
+      console.log(err);
+    });
 });
 
 router.get("/new", (req, res) => {
@@ -24,7 +33,6 @@ router.post("/new", (req, res) => {
       coordinates: coords
     }
   };
-  console.log(newZone.area.coordinates);
   Zone.create(newZone)
     .then(zone => {
       res.status(201).json(zone);
@@ -36,14 +44,57 @@ router.post("/new", (req, res) => {
 });
 
 router.get("/:id/detail", (req, res) => {
-  let { id } = req.params;
+  const { id } = req.params;
   Zone.findById(id)
     .then(zone => {
-      res.render("private/zone", zone);
+      res.render("private/zone-form", zone);
     })
     .catch(err => {
       console.log(err);
     });
+});
+
+router.get("/:id/getJSON", (req, res) => {
+  const { id } = req.params;
+  Zone.findById(id)
+    .then(zone => {
+      res.status(200).json(zone);
+    })
+    .catch(err => {
+      res.status(500).json(err);
+    });
+});
+
+router.patch("/:id/update", (req, res) => {
+  const { name, coords } = req.body;
+  const { id } = req.params;
+  const updatedZone = {
+    name,
+    area: {
+      type: "Polygon",
+      coordinates: coords
+    }
+  };
+  Zone.findByIdAndUpdate(id, { $set: updatedZone })
+    .then(zone => {
+      res.status(200).json(zone);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+    });
+});
+
+router.get("/:id/delete",(req,res)=>{
+  const { id } = req.params;
+  Zone.findByIdAndRemove(id)
+  .then(()=>{
+    res.redirect("/zones");
+  })
+  .catch(err=>{
+    console.log(err);
+    res.redirect("/zones");
+  })
 });
 
 module.exports = router;
