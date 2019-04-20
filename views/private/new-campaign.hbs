@@ -1,13 +1,143 @@
-
+{{!-- <div width="100%" height="50px">
 <a class="uk-button uk-button-default uk-button-small" href="/dashboard">Back</a>
-<h1>New campaign</h1>
+</div> --}}
 
-<div>
+{{!-- <div class="uk-flex"> --}}
   <div>
-    <div></div>
-    <div></div>
+
+    <div>
+
+      <div>
+        <h2 class="uk-heading uk-flex uk-flex-center">
+        {{#if property}}
+        Edit Campaign
+        {{else}}
+        Create Campaign
+        {{/if}}
+        </h2>
+        {{#if err.message}}
+        <div class="uk-alert-danger uk-width-1-3 uk-margin-auto" uk-alert>
+          <p>{{err.message}}</p>
+        </div>
+        {{/if}}
+      </div>
+
+      <div>
+      {{!-- <div class="uk-flex uk-flex-center" id="search"></div> --}}
+      </div>
+
+    </div>
+
+    <div class="uk-column-1-2 uk-column-divider">
+      <div class="uk-flex uk-flex-center">
+        <form  {{#if campaign}} action="/campaign/{{campaign._id}}/edit" {{else}} action="/campaign/new" {{/if}} class="uk-flex-bottom uk-text-center uk-form-width-large" enctype="multipart/form-data" method="POST">
+                
+          <div class="uk-margin">
+            <div>
+              <span class="uk-form-icon" uk-icon="icon: cart"></span>
+              <input name="campaignName" type="text" class="uk-input" placeholder="Enter campaign name" value="{{campaign.campaignName}}">
+            </div>
+          </div>
+
+          <div class="uk-margin">
+            <div>
+              <span class="uk-form-icon" uk-icon="icon: calendar"></span>
+              <select name="zones" type="text" class="uk-select" placeholder="Select geo-segmentation" value="{{campaign.zones}}">
+                {{#if zones}}
+                {{#each zones as |zone|}}
+                  <option value="{{campaign.zones}}">{{zone}}</option>
+                {{/each}}
+                {{else}}
+                <option>Create a zone first</option>
+                {{/if}}
+              </select>
+            </div>
+          </div> 
+        
+          <div class="uk-margin">
+            <div>
+              <span class="uk-form-icon" uk-icon="icon: calendar"></span>
+              <input name="startDate" type="date" class="uk-input" placeholder="Enter campaign start date" value="{{campaign.startDate}}">
+            </div>
+          </div>
+       
+          <div class="uk-margin">
+            <div>
+              <span class="uk-form-icon" uk-icon="icon: calendar"></span>
+              <input name="endDate" type="date" class="uk-input" placeholder="Enter campaign end date" value="{{campaign.endDate}}">
+            </div>
+          </div>
+       
+          <div class="uk-margin">
+            <div>
+              <span class="uk-form-icon" uk-icon="icon: cart"></span>
+              <input  name="playsPerHour" type="number" class="uk-input" placeholder="Type plays per hour for your ad" value="{{campaign.playsPerHour}}">
+            </div>
+          </div>
+          <div class="uk-margin">
+            <div>
+              <div uk-form-custom="target: true">
+                <input type="file">
+                <input class="uk-input uk-form-width-medium" type="text" placeholder="Select your ad" disabled>
+              </div>
+                <button class="uk-button uk-button-default">Upload</button>
+          </div>
+          </div>
+          
+          <div>
+            <button class="uk-button uk-button-primary">
+              {{#if campaign}}
+              Edit campaign
+              {{else}}
+              Save campaign
+              {{/if}}
+            </button>
+          </div>
+
+        </form>
+      </div>
+
+      <div>
+        <div id='map' style='display: inline-flex;width: 600px; height: 450px;'></div>
+      </div>
+
+    </div>
+
   </div>
-  <div>
-    <div class="uk-placeholder uk-text-center">Upload your ad file here (.jpeg, .png, .gif) Max: 2mb</div>
-  </div>
-</div>
+    
+{{!-- </div> --}}
+
+<script>
+  const address = document.getElementById("address");
+  const lat = document.getElementById("lat");
+  const lng = document.getElementById("lng");
+  mapboxgl.accessToken = 'pk.eyJ1IjoiY3J1c2VkbW9zcyIsImEiOiJjanUwYWJpcTIwMGlxNDRxbnVrbzRlZ2ZwIn0.JFaXPkdL0AJ7Vbtyc8lD4A';
+  var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/light-v10',
+    center: [-99.132343, 19.432305],
+    zoom: 12
+  });
+
+map.addControl(new mapboxgl.GeolocateControl({
+      positionOptions: {
+      enableHighAccuracy: true
+      },
+      trackUserLocation: true
+    }));
+
+
+
+  const geocoder = new MapboxGeocoder({
+    accessToken: mapboxgl.accessToken
+  })
+  document.getElementById("search").appendChild(geocoder.onAdd(map))
+  geocoder.on("result", (e) => {
+    console.log(e.result)
+    address.value = e.result.place_name;
+    lat.value = e.result.center[0];
+    lng.value = e.result.center[1];
+  })
+</script>
+
+
