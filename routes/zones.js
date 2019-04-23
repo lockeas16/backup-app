@@ -4,6 +4,7 @@ const helpers = require("../helpers/functions");
 const Zone = require("../models/Zone");
 
 router.use(helpers.isAuth);
+router.use(helpers.checkRoles("PUBLICIST", "/dashboard"));
 
 router.get("/", (req, res) => {
   const { id } = req.user;
@@ -85,16 +86,16 @@ router.patch("/:id/update", (req, res) => {
     });
 });
 
-router.get("/:id/delete",(req,res)=>{
+router.get("/:id/delete", (req, res) => {
   const { id } = req.params;
   Zone.findByIdAndRemove(id)
-  .then(()=>{
-    res.redirect("/zones");
-  })
-  .catch(err=>{
-    console.log(err);
-    res.redirect("/zones");
-  })
+    .then(() => {
+      res.redirect("/zones");
+    })
+    .catch(err => {
+      console.log(err);
+      res.redirect("/zones");
+    });
 });
 
 module.exports = router;
