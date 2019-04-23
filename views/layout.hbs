@@ -30,43 +30,48 @@
 <body>
 
 
-<nav class="uk-navbar-container" uk-navbar>
+  <nav class="uk-navbar-container" uk-navbar>
     <div class="uk-navbar-left">
-        <ul class="uk-navbar-nav">
-            <li class="uk-active" uk-toggle="target: #offcanvas-slide">
-              {{#if user}}
-              <a href="/dashboard">Dashboard</a>
-              <a href="/zones">Zones</a>
-              {{else}}
-              <a href="/">TapCar Ads</a>
-              {{/if}}
-            </li>
-        </ul>
+      <ul class="uk-navbar-nav">
+        {{#if user}}
+        <li class="uk-active" uk-toggle="target: #offcanvas-slide">
+          <a href="/dashboard">Dashboard</a>
+        </li>
+        <li>
+          <a href="/zones">Zones</a>
+        </li>
+        {{else}}
+        <li>
+          <a href="/">TapCar Ads</a>
+        </li>
+        {{/if}}
+      </ul>
     </div>
     <div class="uk-navbar-right">
-        <ul class="uk-navbar-nav">
-            <li>
-                <a href="#">{{#if user}}Welcome {{user.name}}{{else}}Enter{{/if}}</a>
-                <div class="uk-navbar-dropdown">
-                    <ul class="uk-nav uk-navbar-dropdown-nav">
-                        <li class="uk-active">
-                          {{#if user}}
-                          <a href="/profile/{{user._id}}/edit">My account</a></li>
-                          {{else}}
-                          <a href="/auth/login">Sign In</a></li>
-                          {{/if}}
-                        <li class="uk-nav-divider"></li>
-                        <li>
-                          {{#if user}}
-                          <a href="/auth/logout">Logout</a>
-                          {{else}}
-                          <a href="/auth/register">Create account</a>
-                          {{/if}}
-                        </li>
-                    </ul>
-                </div>
-            </li>
-        </ul>
+      <ul class="uk-navbar-nav">
+        <li>
+          <a href="#">{{#if user}}Welcome {{user.name}}{{else}}Enter{{/if}}</a>
+          <div class="uk-navbar-dropdown">
+            <ul class="uk-nav uk-navbar-dropdown-nav">
+              <li class="uk-active">
+                {{#if user}}
+                <a href="/profile/{{user._id}}/edit">My account</a></li>
+              {{else}}
+              <a href="/auth/login">Sign In</a>
+        </li>
+        {{/if}}
+        <li class="uk-nav-divider"></li>
+        <li>
+          {{#if user}}
+          <a href="/auth/logout">Logout</a>
+          {{else}}
+          <a href="/auth/register">Create account</a>
+          {{/if}}
+        </li>
+      </ul>
+    </div>
+    </li>
+    </ul>
     </div>
   </nav>
 
