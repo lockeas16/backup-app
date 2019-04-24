@@ -10,8 +10,8 @@ router.get("/", helpers.isAuth, helpers.checkRoles("PUBLICIST","/dashboard"), (r
   const { user } = req;
   Campaign.find({ owner: user._id }).then(campaigns => {
     console.log("Campaigns:",campaigns);
-    console.log(moment(campaigns[1].startDate).format('DD-MM-YYYY'));
-    console.log(moment(campaigns[1].endDate).format('DD-MM-YYYY'));
+    console.log(moment(campaigns[2].startDate).format('DD-MM-YYYY'));
+    console.log(moment(campaigns[2].endDate).format('DD-MM-YYYY'));
     res.render("private/dashboard", { user, campaigns });
   });
 });
