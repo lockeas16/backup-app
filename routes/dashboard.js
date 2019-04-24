@@ -4,17 +4,24 @@ const helpers = require("../helpers/functions");
 const Campaign = require("../models/Campaign");
 const uploader = require("../helpers/multer")
 const User = require("../models/User")
-const moment = require("moment");
+const moment = require("moment-timezone");
 
 router.get("/", helpers.isAuth, helpers.checkRoles("PUBLICIST","/dashboard"), (req, res) => {
   const { user } = req;
-  Campaign.find({ owner: user._id }).then(campaigns => {
-    let campaigns2 = campaigns.map(campaign=>{
-      campaign.startDate = 0;
-      campaign.endDate = 0;
-      return campaign
+  Campaign.find({ owner: user._id }).then(camps => {
+    // Creating a new campaign object and formatting dates
+    let campaigns = camps.map(campaign=>{
+      return {
+        _id: campaign._id,
+        campaignName: campaign.campaignName,
+        zone: campaign.zone,
+        startDate: moment(campaign.startDate).utc().format("DD-MM-YYYY"),
+        endDate: moment(campaign.endDate).utc().format("DD-MM-YYYY"),
+        playsPerHour: campaign.playsPerHour,
+        ads: campaign.ads,
+        owner: campaign.owner
+      }
     })
-    console.log("Campaigns:",campaigns2);
     res.render("private/dashboard", { user, campaigns });
   });
 });
