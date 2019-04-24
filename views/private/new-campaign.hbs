@@ -35,17 +35,17 @@
           <div class="uk-margin">
             <div>
               <span class="uk-form-icon" uk-icon="icon: cart"></span>
-              <input name="campaignName" type="text" class="uk-input" placeholder="Enter campaign name" value="{{campaign.campaignName}}">
+              <input name="campaignName" type="text" class="uk-input" placeholder="Enter campaign name" value="{{campaign.campaignName}}" required>
             </div>
           </div>
 
           <div class="uk-margin">
             <div>
               <span class="uk-form-icon" uk-icon="icon: calendar"></span>
-              <select name="zones" type="text" class="uk-select" placeholder="Select geo-segmentation" value="{{campaign.zones}}">
+              <select name="zone" type="text" class="uk-select" placeholder="Select geo-segmentation" value="{{campaign.zones}}" required>
                 {{#if zones}}
                 {{#each zones as |zone|}}
-                  <option value="{{campaign.zones}}">{{zone}}</option>
+                  <option value="{{zone.id}}">{{zone.name}}</option>
                 {{/each}}
                 {{else}}
                 <option>Create a zone first</option>
@@ -57,30 +57,30 @@
           <div class="uk-margin">
             <div>
               <span class="uk-form-icon" uk-icon="icon: calendar"></span>
-              <input name="startDate" type="date" class="uk-input" placeholder="Enter campaign start date" value="{{campaign.startDate}}">
+              <input name="startDate" type="date" class="uk-input" placeholder="Enter campaign start date" value="{{campaign.startDate}}" required>
             </div>
           </div>
        
           <div class="uk-margin">
             <div>
               <span class="uk-form-icon" uk-icon="icon: calendar"></span>
-              <input name="endDate" type="date" class="uk-input" placeholder="Enter campaign end date" value="{{campaign.endDate}}">
+              <input name="endDate" type="date" class="uk-input" placeholder="Enter campaign end date" value="{{campaign.endDate}}" required>
             </div>
           </div>
        
           <div class="uk-margin">
             <div>
               <span class="uk-form-icon" uk-icon="icon: cart"></span>
-              <input  name="playsPerHour" type="number" class="uk-input" placeholder="Type plays per hour for your ad" value="{{campaign.playsPerHour}}">
+              <input  name="playsPerHour" type="number" class="uk-input" placeholder="Type plays per hour for your ad" value="{{campaign.playsPerHour}}" required>
             </div>
           </div>
           <div class="uk-margin">
             <div>
               <div uk-form-custom="target: true">
-                <input type="file">
+                <input type="file" name="ads" multiple required>
                 <input class="uk-input uk-form-width-medium" type="text" placeholder="Select your ad" disabled>
               </div>
-                <button class="uk-button uk-button-default">Upload</button>
+                
           </div>
           </div>
           

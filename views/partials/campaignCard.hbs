@@ -23,11 +23,9 @@
       <p>Fecha inicio: <span class="uk-label">{{this.startDate}}</span></p>
       <p>Fecha fin: <span class="uk-label">{{this.endDate}}</span></p>
     </div>
-    {{#ifCond user._id this.owner}}
     <div class="uk-card-footer">
       <a href="/campaign/{{this._id}}/edit" class="uk-button uk-button-text">Edit</a>
     </div>
-    {{/ifCond}}
   </div>
 
 </div>
