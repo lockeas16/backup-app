@@ -70,6 +70,8 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "hbs");
 app.use(express.static(path.join(__dirname, "public")));
 app.use(favicon(path.join(__dirname, "public", "images", "favicon.ico")));
+// registramos partials
+hbs.registerPartials(path.join(__dirname,"/views/partials"));
 
 // default value for title local
 app.locals.title = "TapCarAds";
@@ -84,5 +86,9 @@ const auth = require("./routes/auth");
 app.use("/auth", auth);
 const dashboard = require("./routes/dashboard");
 app.use("/dashboard", dashboard);
+const campaign = require("./routes/campaign");
+app.use("/campaign", campaign)
+const zones = require("./routes/zones");
+app.use("/zones", zones)
 
 module.exports = app;

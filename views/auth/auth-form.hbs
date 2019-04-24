@@ -2,30 +2,54 @@
   <div class="uk-container">
     <div class="uk-flex uk-flex-center uk-flex-column">
       <h2 class="uk-heading uk-flex uk-flex-center">
+        {{#if user}}
+        Edit profile
+        {{else}}
         {{#if login}}
         Login
         {{else}}
         Register
         {{/if}}
+        {{/if}}
       </h2>
-      <form class="uk-text-center auth-form" {{#if login}} action="/auth/login" {{else}} action="/auth/register"
+      <form class="uk-text-center auth-form" {{#if user}} 
+        action="/dashboard/{{user._id}}/edit" 
+        {{else}}
+        {{#if login}}
+        action="/auth/login" 
+        {{else}}
+        action="/auth/register"
+        {{/if}}
         {{/if}} method="POST">
         {{#unless login}}
         <div class="uk-margin">
           <div class="uk-inline">
             <span class="uk-form-icon" uk-icon="icon: user"></span>
-            <input class="uk-input" type="text" name="name" placeholder="Your name" value="{{name}}" required>
+            <input class="uk-input" type="text" name="name" placeholder="Your name" value="{{user.name}}" required>
           </div>
         </div>
         {{/unless}}
+        {{#if user}}
+        <div class="uk-margin">
+          <div class="uk-inline">
+            <span class="uk-form-icon" uk-icon="icon: user"></span>
+            <input class="uk-input" type="text" name="name" placeholder="Your lastname" value="{{user.lastname}}">
+          </div>
+        </div>
+        {{/if}}
 
+        {{#unless user}}
         <div class="uk-margin">
           <div class="uk-inline">
             <span class="uk-form-icon" uk-icon="icon: mail"></span>
-            <input class="uk-input" type="email" name="email" placeholder="Your email" value="{{email}}" required>
+            <input class="uk-input" type="email" name="email" placeholder="Your email" value="{{user.email}}" required>
           </div>
         </div>
+        {{/unless}}
+        
 
+        {{#if user}}
+        {{else}}
         <div class="uk-margin">
           <div class="uk-inline">
             <span class="uk-form-icon" uk-icon="icon: lock"></span>
@@ -41,6 +65,7 @@
           </div>
         </div>
         {{/unless}}
+        {{/if}}
 
         {{#if err}}
         <div class="uk-alert-danger uk-width-1-3 uk-margin-auto" uk-alert>
@@ -48,13 +73,19 @@
         </div>
         {{/if}}
         <button class="uk-button uk-button-primary">
+          {{#if user}}
+          Update
+          {{else}}
           {{#if login}}
           Login
           {{else}}
           Register
           {{/if}}
+          {{/if}}
         </button>
 
+        {{#if user}}
+        {{else}}
         {{#if login}}
         <div class="uk-margin">
           <div class="uk-inline">
@@ -67,6 +98,7 @@
             <a class="uk-button uk-button-link" href="/auth/login">Sign in</a>
           </div>
         </div>
+        {{/if}}
         {{/if}}
 
       </form>
