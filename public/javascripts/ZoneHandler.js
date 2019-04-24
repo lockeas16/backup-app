@@ -1,5 +1,5 @@
 class ZoneHandler {
-  constructor(baseUrl = "https://tapcarads.herokuapp.com") {
+  constructor(baseUrl = "http://localhost:3000") {
     this.baseUrl = baseUrl;
   }
   createZone(data) {
