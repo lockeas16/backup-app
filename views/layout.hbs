@@ -30,7 +30,7 @@
 <body>
 
 
-  <nav class="uk-navbar-container" uk-navbar>
+  <nav class="uk-navbar-container" uk-navbar="mode: click">
     <div class="uk-navbar-left">
       <ul class="uk-navbar-nav">
         {{#if user}}
@@ -55,7 +55,7 @@
             <ul class="uk-nav uk-navbar-dropdown-nav">
               <li class="uk-active">
                 {{#if user}}
-                <a href="/profile/{{user._id}}/edit">My account</a></li>
+                <a href="/dashboard/{{user._id}}/edit">My account</a></li>
               {{else}}
               <a href="/auth/login">Sign In</a>
         </li>

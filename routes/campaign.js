@@ -4,6 +4,7 @@ const Campaign = require("../models/Campaign");
 const uploader = require("../helpers/multer");
 const helpers = require("../helpers/functions");
 
+
 router.get("/new", helpers.isAuth, (req, res) => {
   const { user } = req;
   res.render("private/new-campaign", { user });
