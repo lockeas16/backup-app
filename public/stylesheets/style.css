@@ -15,9 +15,6 @@ form.auth-form input:invalid {
 form.auth-form input:focus:invalid {
   box-shadow: none; }
 
-p {
-  padding: 2px; }
-
 #landing_background {
   background-image: url("../images/landing.png");
   width: 100%;

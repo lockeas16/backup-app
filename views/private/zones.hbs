@@ -1,18 +1,15 @@
 <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js'></script>
 <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css' rel='stylesheet' />
 
-<section class="uk-section-xsmall">
-  <div class="uk-container">
-    <h2>My Zones</h2>
+
     <a href="/zones/new" class="uk-button uk-button-primary">Create Zone</a>
-    <div id='map' style='width: 100%; height: 600px;'></div>
-  </div>
+    <div id='map' style='width: 100%; height: 550px;'></div>
+  
   {{#if err}}
   <div class="uk-alert-danger uk-width-1-3 uk-margin-auto" uk-alert>
     <p>{{err}}</p>
   </div>
   {{/if}}
-</section>
 
 <script src="/javascripts/ZoneHandler.js"></script>
 <script>

@@ -20,7 +20,9 @@ router.get("/", (req, res) => {
 });
 
 router.get("/new", (req, res) => {
-  res.render("private/zone-form");
+  const { id } = req.user;
+  const { user } = req
+  res.render("private/zone-form", { id, user });
 });
 
 router.post("/new", (req, res) => {

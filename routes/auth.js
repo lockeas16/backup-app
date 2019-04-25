@@ -50,9 +50,7 @@ router.post("/register", (req, res, next) => {
         email: newUser.email,
         subject: "TapCar Ads - Email verification",
         user: newUser.username,
-        confirmationUrl: `http://localhost:${
-          process.env.PORT
-        }/auth/confirm/${randomToken}`
+        confirmationUrl: `auth/confirm/${randomToken}`
       };
       options.filename = "confirmation";
 
