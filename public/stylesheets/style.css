@@ -15,6 +15,16 @@ form.auth-form input:invalid {
 form.auth-form input:focus:invalid {
   box-shadow: none; }
 
+p {
+  padding: 2px; }
+
+#landing_background {
+  background-image: url("../images/landing.png");
+  width: 100%;
+  height: 600px;
+  background-size: cover;
+  background-position: center; }
+
 .calculation-box {
   background-color: rgba(255, 255, 255, 0.9);
   text-align: center; }
