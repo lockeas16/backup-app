@@ -6,8 +6,8 @@ const campaignSchema = new Schema({
     type: String,
     required: true
   },
-  zones:{
-    type:[Schema.Types.ObjectId],
+  zone:{
+    type:Schema.Types.ObjectId,
     ref: "Zone"
   },
   startDate:{

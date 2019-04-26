@@ -1,30 +1,21 @@
-
-
-
-<section class="uk-section-xsmall">
-  <div class="uk-container uk-column-divider">
-    <div class="uk-grid-match" uk-grid>
-      <div class="uk-width-expand">
-        <div>
-          <div>
-            <h1 class="uk-flex uk-align-left uk-heading-small">My campaigns</h1>
-            <a href="/campaign/new" class="uk-button uk-button-primary">Create campaign</a>
-          </div>
-          <div class="uk-section-small">
-            <div class="uk-grid-match uk-child-width-1-3 uk-grid-small" uk-grid>
-              {{#each campaigns as |campaign|}}
-              {{> campaignCard campaign}}
-              {{/each}}
-            </div>
-          </div>
-        </div>
+<section class="uk-section uk-section-xsmall">
+  <div class="uk-container uk-container-expand">
+    <div class="uk-grid-small uk-flex uk-flex-middle" uk-grid>
+      <div class="uk-width-auto">
+        <h1 class="uk-heading-small">My campaigns</h1>
       </div>
-      <div class="uk-width-1-3">
-        <div>
-          <h1>Analytics</h1>
-        Aquí va el mapa y las analíticas principales
-        </div>
+      <div class="uk-width-auto">
+        <a href="/campaign/new" class="uk-button uk-button-primary">Create campaign</a>
       </div>
+    </div>
+  </div>
+</section>
+<section class="uk-section uk-section-xsmall">
+  <div class="uk-container">
+    <div class="uk-grid-match uk-child-width-1-4 uk-grid-small" uk-grid>
+      {{#each campaigns as |campaign|}}
+      {{> campaignCard campaign}}
+      {{/each}}
     </div>
   </div>
 </section>

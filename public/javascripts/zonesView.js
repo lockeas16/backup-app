@@ -1,6 +1,6 @@
 // array ids was previously created through Handle Bars
 // TODO: change baseUrl for heroku!
-const zoneHandler = new ZoneHandler();
+const zoneHandler = new ZoneHandler(baseUrl);
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoibG9ja2VhczE2IiwiYSI6ImNqdTBsdzNsaDJuNDU0ZW1wdDhsemh1ZWgifQ.Eb6eV0uCOFbUPAEvSFGAFg";

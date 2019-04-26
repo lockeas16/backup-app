@@ -40,21 +40,23 @@ app.use(cookieParser());
 // to use flash messages
 app.use(flash());
 
-app.use(session({
-  secret: process.env.SECRET,
-  resave: false,
-  saveUninitialized: true,
-  // duracion de la sesion - 1 hora
-  cookie: { maxAge: 3600000 },
-  store: new MongoStore({
-    mongooseConnection: mongoose.connection,
-    ttl: 24 * 60 * 60 // 1 day
+app.use(
+  session({
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: true,
+    // duracion de la sesion - 1 hora
+    cookie: { maxAge: 3600000 },
+    store: new MongoStore({
+      mongooseConnection: mongoose.connection,
+      ttl: 24 * 60 * 60 // 1 day
+    })
   })
-}))
+);
 
 // siempre debajo de la configuracion de la sesion
 app.use(passport.initialize());
-app.use(passport.session())
+app.use(passport.session());
 
 // Express View engine setup
 
@@ -71,7 +73,30 @@ app.set("view engine", "hbs");
 app.use(express.static(path.join(__dirname, "public")));
 app.use(favicon(path.join(__dirname, "public", "images", "favicon.ico")));
 // registramos partials
-hbs.registerPartials(path.join(__dirname,"/views/partials"));
+hbs.registerPartials(path.join(__dirname, "/views/partials"));
+
+// custom helper to create options with a selected value
+// context have the first object sent as an argument
+// options is an object with function and a hash object with params
+hbs.registerHelper("selectOption", function(context, options) {
+  // in options.hash we have the id we want to compare to add a selected atribute
+  let { campId } = options.hash;
+  let ret = "";
+  for (let index = 0; index < context.length; index++) {
+    // if id's are a match, we add the selected attribute
+    if (context[index].id == campId)
+      ret += `<option value=${context[index].id} selected>${
+        context[index].name
+      }</option>`;
+    // otherwise, we create a normal option
+    else
+      ret += `<option value=${context[index].id}>${
+        context[index].name
+      }</option>`;
+  }
+  // we return an instance of a safe string
+  return new hbs.SafeString(ret);
+});
 
 // default value for title local
 app.locals.title = "TapCarAds";
@@ -87,8 +112,8 @@ app.use("/auth", auth);
 const dashboard = require("./routes/dashboard");
 app.use("/dashboard", dashboard);
 const campaign = require("./routes/campaign");
-app.use("/campaign", campaign)
+app.use("/campaign", campaign);
 const zones = require("./routes/zones");
-app.use("/zones", zones)
+app.use("/zones", zones);
 
 module.exports = app;

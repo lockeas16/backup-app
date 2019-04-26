@@ -19,15 +19,15 @@
       </div>
     </div>
     <div class="uk-card-body uk-padding-small">
-      <h3 class="uk-card-title">{{this.title}}</h3>
-      <p>Fecha inicio: <span class="uk-label">{{this.startDate}}</span></p>
-      <p>Fecha fin: <span class="uk-label">{{this.endDate}}</span></p>
+      <h3 class="uk-card-title uk-text-break">{{this.title}}</h3>
+      <p>Name: <span class="uk-label uk-text-truncate">{{this.campaignName}}</span></p>
+      <p>Start: <span class="uk-label uk-text-truncate">{{this.startDate}}</span></p>
+      <p>End: <span class="uk-label uk-text-truncate">{{this.endDate}}</span></p>
+      <p>Remaining plays: <span class="uk-label uk-text-truncate">{{this.playsPerHour}}</span> </p>
     </div>
-    {{#ifCond user._id this.owner}}
     <div class="uk-card-footer">
       <a href="/campaign/{{this._id}}/edit" class="uk-button uk-button-text">Edit</a>
     </div>
-    {{/ifCond}}
   </div>
 
 </div>
