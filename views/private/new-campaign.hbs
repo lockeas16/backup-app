@@ -43,13 +43,13 @@
             <div>
               <span class="uk-form-icon" uk-icon="icon: calendar"></span>
               <select name="zone" type="text" class="uk-select" placeholder="Select geo-segmentation" value="{{campaign.zones}}" required>
-                {{#if zones}}
-                {{#each zones as |zone|}}
-                  <option value="{{zone.id}}">{{zone.name}}</option>
-                {{/each}}
-                {{else}}
-                <option>Create a zone first</option>
-                {{/if}}
+                  {{#if zones}}
+                  {{#selectOption zones campId=campaign.zone}}
+                  {{this}}
+                  {{/selectOption}}
+                  {{else}}
+                  <option>Create a zone first</option>
+                  {{/if}}
               </select>
             </div>
           </div> 

@@ -32,7 +32,7 @@ router.get("/:id/edit", (req, res) => {
   const { id } = req.params;
   const { user } = req;
   Campaign.findById(id).then(campaign => {
-    res.render("new-campaign", { user, campaign });
+    res.render("private/new-campaign", { user, campaign });
   });
 });
 
