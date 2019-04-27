@@ -20,6 +20,8 @@ mongoose
     console.log(
       `Connected to Mongo! Database name: "${x.connections[0].name}"`
     );
+    // for deprecation warning collection.findAndModify is deprecated
+    mongoose.set('useFindAndModify', false);
   })
   .catch(err => {
     console.error("Error connecting to mongo", err);
@@ -99,8 +101,6 @@ hbs.registerHelper("selectOption", function(context, options) {
 });
 
 hbs.registerHelper("ifCond", function(v1, v2, options) {
-  console.log("valor1:|",v1,"|");
-  console.log("valor2:|",v2,"|");
   if (String(v1) === String(v2)) {
     return options.fn(this);
   }
