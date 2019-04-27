@@ -50,7 +50,7 @@ router.post("/register", (req, res, next) => {
         email: newUser.email,
         subject: "TapCar Ads - Email verification",
         user: newUser.username,
-        confirmationUrl: `https://tapcarads.herokuapp.com/auth/confirm/${randomToken}`
+        confirmationUrl: `${req.headers.origin}/auth/confirm/${randomToken}`
       };
       options.filename = "confirmation";
 
