@@ -77,15 +77,16 @@
             </div>
           </div>
         </div>
-
-        <div>
-          <button class="uk-button uk-button-primary">
-            {{#if campaign}}
-            Update campaign
-            {{else}}
-            Save campaign
-            {{/if}}
-          </button>
+        <div class="uk-margin">
+          <div>
+            <button class="uk-button uk-button-primary">
+              {{#if campaign}}
+              Update campaign
+              {{else}}
+              Save campaign
+              {{/if}}
+            </button>
+          </div>
         </div>
       </form>
     </div>
@@ -94,7 +95,7 @@
       <section class="uk-section uk-section-small uk-padding-remove-vertical">
         <div class="uk-container">
           <div id='map' style='width: 550px; height: 350px;'></div>
-          <div>
+          <div class="uk-flex uk-flex-center uk-margin">
             <a href="/zones/new" class="uk-button uk-button-primary">Add Zone</a>
           </div>
         </div>

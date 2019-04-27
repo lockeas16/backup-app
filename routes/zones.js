@@ -91,11 +91,11 @@ router.get("/:id/delete", (req, res) => {
   const { id } = req.params;
   Zone.findByIdAndRemove(id)
     .then(() => {
-      res.redirect("/zones");
+      res.redirect("back");
     })
     .catch(err => {
       console.log(err);
-      res.redirect("/zones");
+      res.redirect("back");
     });
 });
 
