@@ -9,6 +9,8 @@ router.use(helpers.checkRoles("PUBLICIST", "/dashboard"));
 router.get("/", (req, res) => {
   const { id } = req.user;
   const { user } = req;
+  // we store the url so at creation it returns here
+  req.session.previousUrl = req.originalUrl;
   Zone.find({ owner: id }, "_id")
     .then(zones => {
       res.render("private/zones", { user, zones });
@@ -19,9 +21,10 @@ router.get("/", (req, res) => {
 });
 
 router.get("/new", (req, res) => {
-  // const { id } = req.user;
-  const { user } = req
-  res.render("private/zone-form", { user });
+  const { user } = req;
+  // we pass the url to the view so axios can redirect to it after processing
+  const { previousUrl: redirectUrl } = req.session;
+  res.render("private/zone-form", { user, redirectUrl });
 });
 
 router.post("/new", (req, res) => {
@@ -47,9 +50,11 @@ router.post("/new", (req, res) => {
 
 router.get("/:id/detail", (req, res) => {
   const { id } = req.params;
+  // we pass the url to the view so axios can redirect to it after processing
+  const { previousUrl: redirectUrl } = req.session;
   Zone.findById(id)
     .then(zone => {
-      res.render("private/zone-form", zone);
+      res.render("private/zone-form", { zone, redirectUrl });
     })
     .catch(err => {
       console.log(err);
