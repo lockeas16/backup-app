@@ -1,6 +1,6 @@
 // zoneId and coordinates were previously created through Handle Bars
 // TODO: change baseUrl for heroku!
-const zoneHandler = new ZoneHandler(baseUrl);
+const zoneHandler = new ZoneHandler();
 let btn = document.getElementById("zoneBtn");
 btn.disabled = true;
 mapboxgl.accessToken =
