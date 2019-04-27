@@ -12,34 +12,43 @@ a {
   color: #00b7ff;
 }
 
-form.auth-form{
-  input:invalid{
+form.auth-form {
+  input:invalid {
     box-shadow: 0 0 4px 1px red;
   }
-  input:focus:invalid{
+  input:focus:invalid {
     box-shadow: none;
   }
 }
 
-#landing_background{
-  background-image: url('../images/landing.png');
+#landing_background {
+  background-image: url("../images/landing.png");
   width: 100%;
-  height: 600px;
+  height: 100%;
   background-size: cover;
   background-position: center;
 }
 
 .calculation-box {
-  background-color: rgba(255, 255, 255, .9);
+  background-color: rgba(255, 255, 255, 0.9);
   text-align: center;
 }
 
-.label-muted{
-  background-color: rgb(238,238,238);
+.label-muted {
+  background-color: rgb(238, 238, 238);
   color: #000;
+}
+
+.mapZones {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 85%;
+  transition: all 0.3s;
 }
 
 // UIKit override
 .uk-overlay-default {
-  background: rgba(0,0,0,.1);
+  background: rgba(0, 0, 0, 0.1);
 }

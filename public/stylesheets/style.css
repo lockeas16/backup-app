@@ -18,7 +18,7 @@ form.auth-form input:focus:invalid {
 #landing_background {
   background-image: url("../images/landing.png");
   width: 100%;
-  height: 600px;
+  height: 100%;
   background-size: cover;
   background-position: center; }
 
@@ -29,6 +29,14 @@ form.auth-form input:focus:invalid {
 .label-muted {
   background-color: #eeeeee;
   color: #000; }
+
+.mapZones {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height: 85%;
+  transition: all 0.3s; }
 
 .uk-overlay-default {
   background: rgba(0, 0, 0, 0.1); }
