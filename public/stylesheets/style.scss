@@ -33,3 +33,13 @@ form.auth-form{
   background-color: rgba(255, 255, 255, .9);
   text-align: center;
 }
+
+.label-muted{
+  background-color: rgb(238,238,238);
+  color: #000;
+}
+
+// UIKit override
+.uk-overlay-default {
+  background: rgba(0,0,0,.1);
+}

@@ -98,6 +98,15 @@ hbs.registerHelper("selectOption", function(context, options) {
   return new hbs.SafeString(ret);
 });
 
+hbs.registerHelper("ifCond", function(v1, v2, options) {
+  console.log("valor1:|",v1,"|");
+  console.log("valor2:|",v2,"|");
+  if (String(v1) === String(v2)) {
+    return options.fn(this);
+  }
+  return options.inverse(this);
+});
+
 // default value for title local
 app.locals.title = "TapCarAds";
 

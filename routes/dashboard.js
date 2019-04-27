@@ -9,8 +9,13 @@ const moment = require("moment-timezone");
 router.get("/", helpers.isAuth, helpers.checkRoles("PUBLICIST","/dashboard"), (req, res) => {
   const { user } = req;
   Campaign.find({ owner: user._id }).then(camps => {
+    
+    const currentDate = new Date(moment().format());
+    
     // Creating a new campaign object and formatting dates
     let campaigns = camps.map(campaign=>{
+      const endCampDate = new Date(moment(campaign.endDate).utc().format());
+      const status = currentDate > endCampDate ? "Inactive":"Active";
       return {
         _id: campaign._id,
         campaignName: campaign.campaignName,
@@ -19,7 +24,8 @@ router.get("/", helpers.isAuth, helpers.checkRoles("PUBLICIST","/dashboard"), (r
         endDate: moment(campaign.endDate).utc().format("DD-MM-YYYY"),
         playsPerHour: campaign.playsPerHour,
         ads: campaign.ads,
-        owner: campaign.owner
+        owner: campaign.owner,
+        status
       }
     })
     res.render("private/dashboard", { user, campaigns });
