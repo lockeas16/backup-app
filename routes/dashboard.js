@@ -40,7 +40,6 @@ router.get("/:id/edit", helpers.isAuth, (req, res) => {
 router.post("/:id/edit", helpers.isAuth, uploader.single("image"),
   (req, res) => {
     const { id: _id } = req.params;
-    console.log(req.file)
     const { email } = req.user;
     const { url: image } = req.file;
     const user = { ...req.body, image };

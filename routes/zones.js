@@ -11,7 +11,6 @@ router.get("/", (req, res) => {
   const { user } = req;
   Zone.find({ owner: id }, "_id")
     .then(zones => {
-      console.log(zones);
       res.render("private/zones", { user, zones });
     })
     .catch(err => {
@@ -20,9 +19,9 @@ router.get("/", (req, res) => {
 });
 
 router.get("/new", (req, res) => {
-  const { id } = req.user;
+  // const { id } = req.user;
   const { user } = req
-  res.render("private/zone-form", { id, user });
+  res.render("private/zone-form", { user });
 });
 
 router.post("/new", (req, res) => {

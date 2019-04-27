@@ -22,9 +22,10 @@ let draw = new MapboxDraw({
 });
 
 map.addControl(draw);
-if (zoneId){
+if (zoneId) {
   // to add a polygon, it must be after adding the control to the map
   draw.add(createPolygon(coordinates));
+  btn.disabled = false;
 }
 map.on("draw.create", updateArea);
 map.on("draw.delete", updateArea);
@@ -48,16 +49,8 @@ function createBody(data) {
 
 function updateArea() {
   let data = draw.getAll();
-  let answer = document.getElementById("calculated-area");
   if (data.features.length > 0) {
     btn.disabled = false;
-    let area = turf.area(data);
-    // restrict to area to 2 decimal points
-    let rounded_area = Math.round(area * 100) / 100;
-    answer.innerHTML =
-      "<p><strong>" + rounded_area + "</strong> square meters</p>";
-  } else {
-    answer.innerHTML = "";
   }
 }
 
