@@ -23,6 +23,36 @@ app.use((err, req, res, next) => {
 
 let server = http.createServer(app);
 
+const io   = require('socket.io')(server)
+const playControler = require('../helpers/bidPlayer')
+
+io.on('connection', function(socket){
+
+  socket.on('disconnect', function(){
+      console.log('offline');
+  });
+
+  socket.on("connected", () => {
+      console.log("online");
+  });
+
+  socket.on('location', function(){
+    socket.emit(play)
+  })
+  socket.on('play', function(play){
+      playControler.update(play)
+          .then(play => {
+              let updatedCampaign = {
+                playsPerHour: campaign._id,
+              };
+              io.emit('play', updatedCampaign);
+          })
+
+  });
+
+});
+
+
 server.on('error', error => {
   if (error.syscall !== 'listen') { throw error }
 

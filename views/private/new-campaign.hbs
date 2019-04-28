@@ -22,7 +22,7 @@
         class="uk-text-center uk-width-1-1" enctype="multipart/form-data" method="POST">
 
         <div class="uk-margin">
-          <div>
+          <div class="uk-inline">
             <span class="uk-form-icon" uk-icon="icon: cart"></span>
             <input name="campaignName" type="text" class="uk-input" placeholder="Enter campaign name"
               value="{{campaign.campaignName}}" required>
@@ -30,7 +30,7 @@
         </div>
 
         <div class="uk-margin">
-          <div>
+          <div class="uk-inline">
             <span class="uk-form-icon" uk-icon="icon: calendar"></span>
             <select name="zone" type="text" class="uk-select" placeholder="Select geo-segmentation"
               value="{{campaign.zones}}" required {{#if campaign}}disabled{{/if}}>
@@ -46,7 +46,7 @@
         </div>
 
         <div class="uk-margin">
-          <div>
+          <div class="uk-inline">
             <span class="uk-form-icon" uk-icon="icon: calendar"></span>
             <input name="startDate" type="date" class="uk-input" placeholder="Enter campaign start date"
               value="{{campaign.startDate}}" required {{#if campaign}}disabled{{/if}}>
@@ -54,7 +54,7 @@
         </div>
 
         <div class="uk-margin">
-          <div>
+          <div class="uk-inline">
             <span class="uk-form-icon" uk-icon="icon: calendar"></span>
             <input name="endDate" type="date" class="uk-input" placeholder="Enter campaign end date"
               value="{{campaign.endDate}}" required {{#if campaign}}disabled{{/if}}>
@@ -62,8 +62,8 @@
         </div>
 
         <div class="uk-margin">
-          <div>
-            <span class="uk-form-icon" uk-icon="icon: cart"></span>
+          <div class="uk-inline">
+            <span class="uk-form-icon" uk-icon="icon: play"></span>
             <input name="playsPerHour" type="number" class="uk-input" placeholder="Type plays per hour for your ad"
               value="{{campaign.playsPerHour}}" required {{#if campaign}}disabled{{/if}}>
           </div>
