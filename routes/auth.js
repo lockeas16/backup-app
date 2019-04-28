@@ -70,7 +70,7 @@ router.post("/register", (req, res, next) => {
 
 router.get("/logout", helpers.isAuth, (req, res, next) => {
   req.logout();
-  res.redirect("/auth/login");
+  res.redirect("/");
 });
 
 router.get("/confirm/:code", (req, res) => {

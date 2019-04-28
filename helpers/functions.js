@@ -54,8 +54,6 @@ exports.checkRoles = (role, urlRedirect) => {
 /**
  * @function storeUrl
  * Store in session the current Url
- * @param  {string} role
- * @param  {string} urlRedirect
  * @param  {express HTTP Request} req
  * @param  {express HTTP Response} res
  * @param  {function} next

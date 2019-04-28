@@ -3,6 +3,7 @@
 const zoneHandler = new ZoneHandler(baseUrl);
 let btn = document.getElementById("zoneBtn");
 btn.disabled = true;
+
 mapboxgl.accessToken =
   "pk.eyJ1IjoibG9ja2VhczE2IiwiYSI6ImNqdTBsdzNsaDJuNDU0ZW1wdDhsemh1ZWgifQ.Eb6eV0uCOFbUPAEvSFGAFg";
 /* eslint-disable */
@@ -31,6 +32,21 @@ map.on("draw.create", updateArea);
 map.on("draw.delete", updateArea);
 map.on("draw.update", updateArea);
 document.addEventListener("submit", handleSubmit);
+
+// Add geolocate control to the map.
+const geoLocate = new mapboxgl.GeolocateControl({
+  positionOptions: {
+    enableHighAccuracy: true
+  },
+  trackUserLocation: true
+});
+map.addControl(geoLocate);
+geoLocate.on("geolocate", function(e) {
+  let lng=e.coords.longitude;
+  let lat=e.coords.latitude;
+  map.setCenter([lng,lat]);
+  map.setZoom(14);
+});
 
 function createPolygon(coords) {
   return {

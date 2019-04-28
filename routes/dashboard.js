@@ -25,15 +25,17 @@ router.get(
         const stillActive = currentDate > endCampDate ? false : true;
 
         // update status to inactive if campaign was active
-        if (!stillActive && campaign.active){
+        if (!stillActive && campaign.active) {
           Campaign.findByIdAndUpdate(campaign._id, { $set: { active: false } })
-          .then(camp=>{
-            console.log(`Campaign ${camp._id} inactivated due dates`);
-          })
-          .catch(err=>{
-            console.log(`An error ocurred during inactivation of campaign ${camp._id}`);
-            console.log(err);
-          })
+            .then(camp => {
+              console.log(`Campaign ${camp._id} inactivated due dates`);
+            })
+            .catch(err => {
+              console.log(
+                `An error ocurred during inactivation of campaign ${camp._id}`
+              );
+              console.log(err);
+            });
         }
 
         return {
@@ -74,15 +76,19 @@ router.post(
   uploader.single("image"),
   (req, res) => {
     const { id: _id } = req.params;
-    const { email } = req.user;
-    const { url: image } = req.file;
-    const user = { ...req.body, image };
-    User.findOneAndUpdate({ _id, email }, { $set: user })
+    const {name, lastname} = req.body;
+    let user = {name, lastname};
+    if (req.file){
+      const { url: image } = req.file;
+      user = { ...user, image };
+    }
+    User.findByIdAndUpdate({ _id }, { $set: user })
       .then(() => {
         res.redirect("/dashboard");
       })
       .catch(err => {
-        res.render("auth-form", { err });
+        console.log(err);
+        res.redirect("/dashboard");
       });
   }
 );
