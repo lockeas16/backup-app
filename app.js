@@ -20,6 +20,8 @@ mongoose
     console.log(
       `Connected to Mongo! Database name: "${x.connections[0].name}"`
     );
+    // for deprecation warning collection.findAndModify is deprecated
+    mongoose.set('useFindAndModify', false);
   })
   .catch(err => {
     console.error("Error connecting to mongo", err);
@@ -96,6 +98,13 @@ hbs.registerHelper("selectOption", function(context, options) {
   }
   // we return an instance of a safe string
   return new hbs.SafeString(ret);
+});
+
+hbs.registerHelper("ifCond", function(v1, v2, options) {
+  if (String(v1) === String(v2)) {
+    return options.fn(this);
+  }
+  return options.inverse(this);
 });
 
 // default value for title local

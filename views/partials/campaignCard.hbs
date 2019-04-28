@@ -1,13 +1,28 @@
 <div>
   <div class="uk-card uk-card-default">
     <div class="uk-card-media-top">
+      {{#ifCond this.status "Active"}}
+      <div class="uk-card-badge uk-label uk-border-pill uk-label-success">
+      {{else}}
+      <div class="uk-card-badge uk-label uk-border-pill label-muted">
+      {{/ifCond}}
+        {{this.status}}
+      </div>
       <div class="uk-position-relative uk-visible-toggle uk-light" tabindex="-1" uk-slideshow="animation: fade; autoplay: true">
-
         <ul class="uk-slideshow-items">
+          
           {{#each this.ads as |ad|}}
-          <li>
-            <img src="{{ad}}" alt="" uk-cover>
-          </li>
+            <li>
+              <img src="{{ad}}" alt="" uk-cover>
+              <div 
+              {{!-- we use ../ to access a variable outside of scope --}}
+              {{#ifCond ../this.status "Active"}}
+              class="uk-overlay-default uk-position-cover"
+              {{else}}  
+              class="uk-overlay-primary uk-position-cover"
+              {{/ifCond}}
+                ></div>
+            </li>
           {{/each}}
         </ul>
 
@@ -25,9 +40,11 @@
       <p>End: <span class="uk-label uk-text-truncate">{{this.endDate}}</span></p>
       <p>Remaining plays: <span class="uk-label uk-text-truncate">{{this.playsPerHour}}</span> </p>
     </div>
+    {{#ifCond this.status "Active"}}
     <div class="uk-card-footer">
       <a href="/campaign/{{this._id}}/edit" class="uk-button uk-button-text">Edit</a>
     </div>
+    {{/ifCond}}
   </div>
 
 </div>
