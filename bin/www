@@ -23,6 +23,54 @@ app.use((err, req, res, next) => {
 
 let server = http.createServer(app);
 
+//implementing socket.io
+
+const io   = require('socket.io')(server)
+const playControler = require('../helpers/bidPlayer')
+const Campaign = require('../models/Campaign')
+const Zone = require('../models/Zone')
+
+io.on('connection', function(socket){
+
+  socket.on('disconnect', function(){
+      console.log('User disconnected');
+  });
+
+  socket.on("connected", () => {
+      console.log("User online");
+      socket.emit('getLocation')
+  });
+
+  socket.on('location', function(lat, lng){
+    console.log(lat + ', ' + lng)
+    socket.emit('display')
+  })
+
+  socket.on('play', function (fn) {
+    fn('http://res.cloudinary.com/dhbagmpkw/image/upload/v1556197016/TapCarAds/McDonalds.jpg.jpg')
+  })
+  
+  // Zone.find({ zone: { $geoWithin: { $polygon: lat, lng }}})
+  // socket.on('play', function (fn) {
+  //   fn(Zone.find({ zone: { $geoWithin: { $polygon: lat, lng }
+  //     }
+  //  }))
+  // })
+
+  // socket.on('played', function(play){
+  //     playControler.update(play)
+  //         .then(play => {
+  //             let updatedCampaign = {
+  //               playsPerHour: campaign._id,
+  //             };
+  //             io.emit('play', updatedCampaign);
+  //         })
+
+  // });
+
+});
+
+
 server.on('error', error => {
   if (error.syscall !== 'listen') { throw error }
 

@@ -124,5 +124,7 @@ const campaign = require("./routes/campaign");
 app.use("/campaign", campaign);
 const zones = require("./routes/zones");
 app.use("/zones", zones);
+const player = require("./routes/player");
+app.use("/player", player);
 
 module.exports = app;
