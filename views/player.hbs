@@ -1,31 +1,37 @@
 <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+
+<img id="displayed_image" width="100%" height="100%" style="padding:0px" src="" alt="">
+
 <script>
   var socket = io();
-</script>
+  socket.emit('connected')
 
-{{!-- <h1>Player</h1>
-
-
-<script>
-function getLocation() {
+  function getLocation() {
   if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(showPosition);
+    navigator.geolocation.getCurrentPosition(createLocation);
   } else {
    console.log("Geolocation is not supported by this browser.");
   }
 }
-
-function showPosition(position) {
-   console.log( position.coords.latitude + ', ' + position.coords.longitude ) 
-}
-
 getLocation()
 
+function createLocation(position) {
+    lat = position.coords.latitude
+    lng = position.coords.longitude
+   console.log(lat, lng)
+   socket.on('getLocation', function(){
+     socket.emit('location', lat, lng)
+   }) 
+}
+
+socket.on('display', function(){
+      socket.emit('play', function(ad){
+        document.getElementById('displayed_image').setAttribute('src', ad)
+      })
+})
 
 setTimeout(function() {
   window.location.href = window.location;
 }, 30000);
 
-</script> --}}
-
-
+</script>

@@ -9,9 +9,4 @@ router.get('/', (req, res) =>{
   res.render('player', {layout: false})
 })
 
-server.listen(
-  console.log(`Server fucking running in http://localhost:3000`)
-)
-
-
 module.exports = router;
