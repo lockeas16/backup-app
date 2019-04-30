@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const helpers = require("../helpers/functions");
 const Zone = require("../models/Zone");
+const Campaign = require("../models/Campaign");
 
 router.use(helpers.isAuth);
 router.use(helpers.checkRoles("PUBLICIST", "/dashboard"));
@@ -9,11 +10,14 @@ router.use(helpers.checkRoles("PUBLICIST", "/dashboard"));
 router.get("/", (req, res) => {
   const { id } = req.user;
   const { user } = req;
+  const route = req.baseUrl;
+  const err = req.session.flashErr;
+  req.session.flashErr = undefined;
   // we store the url so at creation it returns here
   req.session.previousUrl = req.originalUrl;
   Zone.find({ owner: id }, "_id")
     .then(zones => {
-      res.render("private/zones", { user, zones });
+      res.render("private/zones", { user, zones, route, err });
     })
     .catch(err => {
       console.log(err);
@@ -22,9 +26,10 @@ router.get("/", (req, res) => {
 
 router.get("/new", (req, res) => {
   const { user } = req;
+  const route = req.baseUrl;
   // we pass the url to the view so axios can redirect to it after processing
   const { previousUrl: redirectUrl } = req.session;
-  res.render("private/zone-form", { user, redirectUrl });
+  res.render("private/zone-form", { user, redirectUrl, route });
 });
 
 router.post("/new", (req, res) => {
@@ -50,11 +55,13 @@ router.post("/new", (req, res) => {
 
 router.get("/:id/detail", (req, res) => {
   const { id } = req.params;
+  const { user } = req;
+  const route = req.baseUrl;
   // we pass the url to the view so axios can redirect to it after processing
   const { previousUrl: redirectUrl } = req.session;
   Zone.findById(id)
     .then(zone => {
-      res.render("private/zone-form", { zone, redirectUrl });
+      res.render("private/zone-form", { user, zone, redirectUrl, route });
     })
     .catch(err => {
       console.log(err);
@@ -94,14 +101,21 @@ router.patch("/:id/update", (req, res) => {
 
 router.get("/:id/delete", (req, res) => {
   const { id } = req.params;
-  Zone.findByIdAndRemove(id)
-    .then(() => {
-      res.redirect("back");
-    })
-    .catch(err => {
-      console.log(err);
-      res.redirect("back");
-    });
+  Campaign.findOne({ $and: [{ zone: id }, { active: true }] }).then(camp => {
+    if (camp) {
+      req.session.flashErr = "Can't delete a zone with active campaigns";
+      res.redirect("/zones");
+    } else {
+      Zone.findByIdAndRemove(id)
+        .then(() => {
+          res.redirect("back");
+        })
+        .catch(err => {
+          console.log(err);
+          res.redirect("back");
+        });
+    }
+  });
 });
 
 module.exports = router;
