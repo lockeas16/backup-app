@@ -16,9 +16,15 @@ const zoneSchema = new Schema(
         type: String,
         default: "Polygon"
       },
-      coordinates: [[Number]]
+      coordinates:{
+        // correct format to store polygons!
+        type:[],
+        required: true
+      }
     }
   },
   { timestamps:true }
 );
+
+zoneSchema.index({ area: "2dsphere" });
 module.exports = mongoose.model('Zone',zoneSchema)

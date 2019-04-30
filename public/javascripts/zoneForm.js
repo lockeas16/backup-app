@@ -26,6 +26,7 @@ map.addControl(draw);
 if (zoneId) {
   // to add a polygon, it must be after adding the control to the map
   draw.add(createPolygon(coordinates));
+  map.setCenter(getCenterCoord(coordinates[0]))
   btn.disabled = false;
 }
 map.on("draw.create", updateArea);
@@ -59,7 +60,7 @@ function createBody(data) {
   let obj = {};
   const inpName = document.getElementById("zoneName");
   obj["name"] = inpName.value;
-  obj["coords"] = data.features[0].geometry.coordinates[0];
+  obj["coords"] = data.features[0].geometry.coordinates;
   return obj;
 }
 

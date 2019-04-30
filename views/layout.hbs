@@ -30,10 +30,10 @@
     <div class="uk-navbar-left">
       <ul class="uk-navbar-nav">
         {{#if user}}
-        <li class="uk-active">
+        <li {{#ifCond route "/dashboard"}} class="uk-active" {{/ifCond}}>
           <a href="/dashboard">Dashboard</a>
         </li>
-        <li>
+        <li {{#ifCond route "/zones"}} class="uk-active" {{/ifCond}}>
           <a href="/zones">Zones</a>
         </li>
         {{else}}

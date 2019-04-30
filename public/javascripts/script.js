@@ -27,7 +27,6 @@ const getCenterCoord = (coords) => {
   });
 
   let total = coords.length;
-  console.log(total);
 
   x = x / total;
   y = y / total;
@@ -42,11 +41,3 @@ const getCenterCoord = (coords) => {
     (centralLatitude * 180) / Math.PI
   ];
 };
-
-document.addEventListener(
-  "DOMContentLoaded",
-  () => {
-    console.log("IronGenerator JS imported successfully!");
-  },
-  false
-);

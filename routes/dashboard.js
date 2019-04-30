@@ -12,17 +12,16 @@ router.get(
   helpers.checkRoles("PUBLICIST", "/dashboard"),
   (req, res) => {
     const { user } = req;
+    const route = req.baseUrl;
     Campaign.find({ owner: user._id }).then(camps => {
-      const currentDate = new Date(moment().format());
+      const currentDate = moment().format("YYYY-MM-DD");
 
       // Creating a new campaign object and formatting dates
       let campaigns = camps.map(campaign => {
-        const endCampDate = new Date(
-          moment(campaign.endDate)
-            .utc()
-            .format()
-        );
-        const stillActive = currentDate > endCampDate ? false : true;
+        const endCampDate = moment(campaign.endDate)
+          .utc()
+          .format("YYYY-MM-DD");
+        const stillActive = currentDate >= endCampDate ? false : true;
 
         // update status to inactive if campaign was active
         if (!stillActive && campaign.active) {
@@ -54,7 +53,7 @@ router.get(
           status: stillActive === true ? "Active" : "Inactive"
         };
       });
-      res.render("private/dashboard", { user, campaigns });
+      res.render("private/dashboard", { user, campaigns, route });
     });
   }
 );
@@ -76,9 +75,9 @@ router.post(
   uploader.single("image"),
   (req, res) => {
     const { id: _id } = req.params;
-    const {name, lastname} = req.body;
-    let user = {name, lastname};
-    if (req.file){
+    const { name, lastname } = req.body;
+    let user = { name, lastname };
+    if (req.file) {
       const { url: image } = req.file;
       user = { ...user, image };
     }

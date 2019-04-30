@@ -7,6 +7,8 @@ mapboxgl.accessToken =
 var map = new mapboxgl.Map({
   container: "map",
   style: "mapbox://styles/mapbox/light-v10",
+  // default center
+  center: [-99.130325,19.439076],
   zoom: 11
 });
 
@@ -15,6 +17,8 @@ const addLayerToMap = (map, id, data) => {
     const popUpHTML = `<a href="/zones/${id}/detail">Edit ${
       data.name
     }</a><br><a href="/zones/${id}/delete" class="uk-text-danger">Delete Zone</a>`;
+    // retrieving the first coordinate to set a popup
+    let [lng,lat]=data.area.coordinates[0][0];
     map.addLayer({
       id: id,
       type: "fill",
@@ -27,7 +31,7 @@ const addLayerToMap = (map, id, data) => {
           },
           geometry: {
             type: "Polygon",
-            coordinates: [data.area.coordinates]
+            coordinates: data.area.coordinates
           }
         }
       },
@@ -40,7 +44,7 @@ const addLayerToMap = (map, id, data) => {
 
     //Add popup to layer
     new mapboxgl.Popup()
-      .setLngLat(data.area.coordinates[0])
+      .setLngLat([lng,lat])
       .setHTML(popUpHTML)
       .addTo(map);
     //event listener to display popup for editing
@@ -50,7 +54,7 @@ const addLayerToMap = (map, id, data) => {
         .setHTML(popUpHTML)
         .addTo(map);
     });
-    resolve(data.area.coordinates);
+    resolve(data.area.coordinates[0]);
   });
 };
 
