@@ -1,23 +1,23 @@
 #!/usr/bin/env node
 
-const http = require('http');
+const http = require("http");
 
-let app = require('../app');
+let app = require("../app");
 
 // catch 404 and render a not-found.hbs template
 app.use((req, res, next) => {
   res.status(404);
-  res.render('not-found');
+  res.render("not-found");
 });
 
 app.use((err, req, res, next) => {
   // always log the error
-  console.error('ERROR', req.method, req.path, err);
+  console.error("ERROR", req.method, req.path, err);
 
   // only render if the error ocurred before sending the response
   if (!res.headersSent) {
     res.status(500);
-    res.render('error');
+    res.render("error");
   }
 });
 
@@ -25,62 +25,56 @@ let server = http.createServer(app);
 
 //implementing socket.io
 
-const io   = require('socket.io')(server)
-const playControler = require('../helpers/bidPlayer')
-const Campaign = require('../models/Campaign')
-const Zone = require('../models/Zone')
+const io = require("socket.io")(server);
+const playControler = require("../helpers/bidPlayer");
+const Campaign = require("../models/Campaign");
+const Zone = require("../models/Zone");
 
-io.on('connection', function(socket){
-
-  socket.on('disconnect', function(){
-      console.log('User disconnected');
+io.on("connection", function(socket) {
+  socket.on("disconnect", function() {
+    console.log("User disconnected");
   });
 
   socket.on("connected", () => {
-      console.log("User online");
-      socket.emit('getLocation')
+    console.log("User online");
+    socket.emit("getLocation");
   });
 
-  socket.on('location', function(lat, lng){
-    console.log(lat + ', ' + lng)
-    socket.emit('display')
-  })
-
-  socket.on('play', function (fn) {
-    fn('http://res.cloudinary.com/dhbagmpkw/image/upload/v1556197016/TapCarAds/McDonalds.jpg.jpg')
-  })
-  
-  // Zone.find({ zone: { $geoWithin: { $polygon: lat, lng }}})
-  // socket.on('play', function (fn) {
-  //   fn(Zone.find({ zone: { $geoWithin: { $polygon: lat, lng }
-  //     }
-  //  }))
-  // })
-
-  // socket.on('played', function(play){
-  //     playControler.update(play)
-  //         .then(play => {
-  //             let updatedCampaign = {
-  //               playsPerHour: campaign._id,
-  //             };
-  //             io.emit('play', updatedCampaign);
-  //         })
-
-  // });
-
+  socket.on("play", function(lat, lng, fn) {
+    console.log(lng + ", " + lat);
+    Zone.findOne({
+      area: {
+        $geoIntersects: {
+          $geometry: { type: "Point", coordinates: [lng, lat] }
+        }
+      }
+    }).then(zoneFound => {
+      console.log(zoneFound);
+      const { _id: id } = zoneFound;
+      Campaign.findOne({ zone: id })
+        .then(camp => {
+          console.log(camp);
+          fn(camp.ads[0]);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    });
+  });
 });
 
-
-server.on('error', error => {
-  if (error.syscall !== 'listen') { throw error }
+server.on("error", error => {
+  if (error.syscall !== "listen") {
+    throw error;
+  }
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
-    case 'EACCES':
+    case "EACCES":
       console.error(`Port ${process.env.PORT} requires elevated privileges`);
       process.exit(1);
       break;
-    case 'EADDRINUSE':
+    case "EADDRINUSE":
       console.error(`Port ${process.env.PORT} is already in use`);
       process.exit(1);
       break;
