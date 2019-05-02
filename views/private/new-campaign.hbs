@@ -1,11 +1,11 @@
 <div>
   <div>
-    <div>
+    <div style="margin-top: 10px">
       <h2 class="uk-heading uk-flex uk-flex-center">
         {{#if campaign}}
         Edit Campaign
         {{else}}
-        Create Campaign
+        New Campaign
         {{/if}}
       </h2>
       {{#if err.message}}
@@ -79,11 +79,11 @@
             </div>
             <div class="uk-margin">
               <div class="uk-inline uk-width-1-1">
-                <button class="uk-button uk-button-primary">
+                <button class="uk-button uk-button-primary" style="background-color: #9b59b6; border-radius: 20px">
                   {{#if campaign}}
                   Update campaign
                   {{else}}
-                  Save campaign
+                  Create campaign
                   {{/if}}
                 </button>
               </div>
@@ -95,7 +95,7 @@
       <div class="uk-width-expand">  
         <div id='map' class="mapZones" ></div>
         <div class="uk-flex uk-flex-center uk-margin">
-          <a href="/zones/new" class="uk-button uk-button-primary">Add Zone</a>
+          <a href="/zones/new" class="uk-button uk-button-primary" style="background-color: #9b59b6; border-radius: 20px">Add Zone</a>
         </div>
       </div>
 

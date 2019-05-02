@@ -1,5 +1,5 @@
 <div>
-  <div class="uk-card uk-card-default">
+  <div class="uk-card uk-card-default uk-box-shadow-large" style="border-radius: 5px">
     <div class="uk-card-media-top">
       {{#ifCond this.status "Active"}}
       <div class="uk-card-badge uk-label uk-border-pill uk-label-success">
@@ -37,9 +37,9 @@
       <h3 class="uk-card-title">{{this.campaignName}}</h3>
     </div>
     <div class="uk-card-body uk-padding-small">
-      <p>Start: <span class="uk-label uk-text-truncate">{{this.startDate}}</span></p>
-      <p>End: <span class="uk-label uk-text-truncate">{{this.endDate}}</span></p>
-      <p>Remaining plays: <span class="uk-label uk-text-truncate">{{this.playsPerHour}}</span> </p>
+      <p>Start: <span class="uk-text-truncate">{{this.startDate}}</span></p>
+      <p>End: <span class="uk-text-truncate">{{this.endDate}}</span></p>
+      <p>Remaining plays: <span class="uk-label uk-text-truncate"  style="background-color: #9b59b6">{{this.playsPerHour}}</span> </p>
     </div>
     {{#ifCond this.status "Active"}}
     <div class="uk-card-footer">
