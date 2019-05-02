@@ -103,7 +103,7 @@ router.get("/:id/delete", (req, res) => {
   const { id } = req.params;
   Campaign.findOne({ $and: [{ zone: id }, { active: true }] }).then(camp => {
     if (camp) {
-      req.session.flashErr = "Can't delete a zone with active campaigns";
+      req.session.flashErr = "Can't delete a zone with ongoing campaigns";
       res.redirect("/zones");
     } else {
       Zone.findByIdAndRemove(id)

@@ -50,7 +50,7 @@ router.get(
           playsPerHour: campaign.playsPerHour,
           ads: campaign.ads,
           owner: campaign.owner,
-          status: stillActive === true ? "Active" : "Inactive"
+          status: stillActive === true ? "Ongoing" : "Finished"
         };
       });
       res.render("private/dashboard", { user, campaigns, route });
