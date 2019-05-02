@@ -26,9 +26,40 @@ let server = http.createServer(app);
 //implementing socket.io
 
 const io = require("socket.io")(server);
-const playControler = require("../helpers/bidPlayer");
+//const playControler = require("../helpers/bidPlayer");
 const Campaign = require("../models/Campaign");
 const Zone = require("../models/Zone");
+const moment = require("moment-timezone");
+const currentDate = moment().format("YYYY-MM-DD");
+
+function processCampaign(id) {
+  return new Promise((resolve, reject) => {
+    Campaign.find({ zone: id }).then(camps => {
+      console.log("procesando campañas");
+      // processing only active campaigns
+      let activeCamps=camps.filter(camp=>{
+        const endCampDate = moment(camp.endDate)
+          .utc()
+          .format("YYYY-MM-DD");
+        return currentDate >= endCampDate ? false : true;
+      })
+      resolve(
+        activeCamps.map(camp => {
+          return camp.ads;
+        })
+      );
+    });
+  });
+}
+
+function processZone(zone) {
+  return new Promise((resolve, reject) => {
+    const { _id: id } = zone;
+    processCampaign(id).then(ads => {
+      resolve(ads.flat());
+    });
+  });
+}
 
 io.on("connection", function(socket) {
   socket.on("disconnect", function() {
@@ -41,24 +72,23 @@ io.on("connection", function(socket) {
   });
 
   socket.on("play", function(lat, lng, fn) {
-    console.log(lng + ", " + lat);
-    Zone.findOne({
+    console.log(`Ubicacion del dispositivo longitude:${lng}, latitude:${lat}`);
+    let promises = [];
+    Zone.find({
       area: {
         $geoIntersects: {
           $geometry: { type: "Point", coordinates: [lng, lat] }
         }
       }
-    }).then(zoneFound => {
-      console.log(zoneFound);
-      const { _id: id } = zoneFound;
-      Campaign.findOne({ zone: id })
-        .then(camp => {
-          console.log(camp);
-          fn(camp.ads[0]);
-        })
-        .catch(err => {
-          console.log(err);
-        });
+    }).then(zones => {
+      zones.forEach(zone => {
+        promises.push(processZone(zone));
+      });
+      Promise.all(promises).then(values => {
+        let allAds=values.flat();
+        console.log(allAds);
+        fn(allAds);
+      });
     });
   });
 });
