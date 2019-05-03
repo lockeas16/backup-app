@@ -76,11 +76,11 @@ function handleSubmit(e) {
   const body = createBody(draw.getAll());
   if (zoneId) {
     zoneHandler.updateZone(zoneId, body).then(res => {
-      window.location.replace(redirectUrl);
+      window.location.replace("/dashboard");
     });
   } else {
     zoneHandler.createZone(body).then(res => {
-      window.location.replace(redirectUrl);
+      window.location.replace("/dashboard");
     });
   }
 }
