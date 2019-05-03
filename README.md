@@ -26,4 +26,4 @@ If you'd like to view the project, you'll need the following environment variabl
 * CLOUDSECRET= Cloudinary secret
 
 ## Unsolved problems & gaps
-Still some features missing like analytics, password recovery, payment and billment methods, etc.
+Still some features missing like analytics, password recovery, payment and billing methods, etc.
