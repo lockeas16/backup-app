@@ -1,6 +1,6 @@
 // zoneId and coordinates were previously created through Handle Bars
 // TODO: change baseUrl for heroku!
-const zoneHandler = new ZoneHandler();
+const zoneHandler = new ZoneHandler(baseUrl);
 let btn = document.getElementById("zoneBtn");
 btn.disabled = true;
 
@@ -76,11 +76,11 @@ function handleSubmit(e) {
   const body = createBody(draw.getAll());
   if (zoneId) {
     zoneHandler.updateZone(zoneId, body).then(res => {
-      window.location.replace("/dashboard");
+      window.location.replace(redirectUrl);
     });
   } else {
     zoneHandler.createZone(body).then(res => {
-      window.location.replace("/dashboard");
+      window.location.replace(redirectUrl);
     });
   }
 }
