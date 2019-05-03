@@ -36,7 +36,7 @@ function processCampaign(id) {
   return new Promise((resolve, reject) => {
     Campaign.find({ zone: id }).then(camps => {
       console.log("procesando campañas");
-      console.log(camps)
+      console.log(camps);
       // processing only active campaigns
       let activeCamps=camps.filter(camp=>{
         const endCampDate = moment(camp.endDate)
@@ -52,6 +52,8 @@ function processCampaign(id) {
     });
   });
 }
+
+//Campaign.findOneAndUpdate({_id : camp._id}, {$inc: {playsPerHour: -1}});;
 
 function processZone(zone) {
   return new Promise((resolve, reject) => {
