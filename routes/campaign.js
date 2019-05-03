@@ -8,6 +8,7 @@ const moment = require("moment-timezone");
 
 router.use(helpers.isAuth);
 router.use(helpers.checkRoles("PUBLICIST"));
+router.use(helpers.storeUrl);
 
 router.get("/new", (req, res) => {
   const { user } = req;

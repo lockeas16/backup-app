@@ -20,6 +20,8 @@ mongoose
     console.log(
       `Connected to Mongo! Database name: "${x.connections[0].name}"`
     );
+    // for deprecation warning collection.findAndModify is deprecated
+    mongoose.set('useFindAndModify', false);
   })
   .catch(err => {
     console.error("Error connecting to mongo", err);
@@ -98,6 +100,13 @@ hbs.registerHelper("selectOption", function(context, options) {
   return new hbs.SafeString(ret);
 });
 
+hbs.registerHelper("ifCond", function(v1, v2, options) {
+  if (String(v1) === String(v2)) {
+    return options.fn(this);
+  }
+  return options.inverse(this);
+});
+
 // default value for title local
 app.locals.title = "TapCarAds";
 
@@ -115,5 +124,7 @@ const campaign = require("./routes/campaign");
 app.use("/campaign", campaign);
 const zones = require("./routes/zones");
 app.use("/zones", zones);
+const player = require("./routes/player");
+app.use("/player", player);
 
 module.exports = app;

@@ -1,38 +1,113 @@
 #!/usr/bin/env node
 
-const http = require('http');
+const http = require("http");
 
-let app = require('../app');
+let app = require("../app");
 
 // catch 404 and render a not-found.hbs template
 app.use((req, res, next) => {
   res.status(404);
-  res.render('not-found');
+  res.render("not-found");
 });
 
 app.use((err, req, res, next) => {
   // always log the error
-  console.error('ERROR', req.method, req.path, err);
+  console.error("ERROR", req.method, req.path, err);
 
   // only render if the error ocurred before sending the response
   if (!res.headersSent) {
     res.status(500);
-    res.render('error');
+    res.render("error");
   }
 });
 
 let server = http.createServer(app);
 
-server.on('error', error => {
-  if (error.syscall !== 'listen') { throw error }
+//implementing socket.io
+
+const io = require("socket.io")(server);
+//const playControler = require("../helpers/bidPlayer");
+const Campaign = require("../models/Campaign");
+const Zone = require("../models/Zone");
+const moment = require("moment-timezone");
+const currentDate = moment().format("YYYY-MM-DD");
+
+function processCampaign(id) {
+  return new Promise((resolve, reject) => {
+    Campaign.find({ zone: id }).then(camps => {
+      console.log("procesando campañas");
+      console.log(camps);
+      // processing only active campaigns
+      let activeCamps=camps.filter(camp=>{
+        const endCampDate = moment(camp.endDate)
+          .utc()
+          .format("YYYY-MM-DD");
+        return currentDate >= endCampDate ? false : true;
+      })
+      resolve(
+        activeCamps.map(camp => {
+          return camp.ads;
+        })
+      );
+    });
+  });
+}
+
+//Campaign.findOneAndUpdate({_id : camp._id}, {$inc: {playsPerHour: -1}});;
+
+function processZone(zone) {
+  return new Promise((resolve, reject) => {
+    const { _id: id } = zone;
+    processCampaign(id).then(ads => {
+      resolve(ads.flat());
+    });
+  });
+}
+
+io.on("connection", function(socket) {
+  socket.on("disconnect", function() {
+    console.log("User disconnected");
+  });
+
+  socket.on("connected", () => {
+    console.log("User online");
+    socket.emit("getLocation");
+  });
+
+  socket.on("play", function(lat, lng, fn) {
+    console.log(`Ubicacion del dispositivo longitude:${lng}, latitude:${lat}`);
+    let promises = [];
+    Zone.find({
+      area: {
+        $geoIntersects: {
+          $geometry: { type: "Point", coordinates: [lng, lat] }
+        }
+      }
+    }).then(zones => {
+      zones.forEach(zone => {
+        promises.push(processZone(zone));
+      });
+      Promise.all(promises).then(values => {
+        let allAds=values.flat();
+        console.log(allAds);
+        fn(allAds);
+      });
+    });
+  });
+});
+
+server.on("error", error => {
+  if (error.syscall !== "listen") {
+    throw error;
+  }
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
-    case 'EACCES':
+    case "EACCES":
       console.error(`Port ${process.env.PORT} requires elevated privileges`);
       process.exit(1);
       break;
-    case 'EADDRINUSE':
+    case "EADDRINUSE":
       console.error(`Port ${process.env.PORT} is already in use`);
       process.exit(1);
       break;

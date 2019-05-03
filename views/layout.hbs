@@ -23,21 +23,21 @@
     href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v3.1.6/mapbox-gl-geocoder.css'
     type='text/css' />
   <link rel="stylesheet" href="/stylesheets/style.css" />
-  <!-- UIkit JS -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.1.4/js/uikit-icons.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.3/js/uikit.min.js"></script>
 </head>
 
 <body>
-  <nav class="uk-navbar-container" uk-navbar="mode: click">
+  <nav {{#if user}} class="uk-navbar-container uk-light" {{else}} class="uk-navbar-container uk-dark" style="background-color:transparent"{{/if}} uk-navbar="mode: click" style="background-color: #9b59b6">
     <div class="uk-navbar-left">
       <ul class="uk-navbar-nav">
         {{#if user}}
-        <li class="uk-active">
+        <li {{#ifCond route "/dashboard"}} class="uk-active" {{/ifCond}}>
           <a href="/dashboard">Dashboard</a>
         </li>
-        <li>
+        <li {{#ifCond route "/zones"}} class="uk-active" {{/ifCond}}>
           <a href="/zones">Zones</a>
+        </li>
+        <li {{#ifCond route "/analytics"}} class="uk-active" {{/ifCond}}>
+          <a href="#">Analytics</a>
         </li>
         {{else}}
         <li>
@@ -48,8 +48,14 @@
     </div>
     <div class="uk-navbar-right">
       <ul class="uk-navbar-nav">
+        {{#if user}}
         <li>
-          <a href="#">{{#if user}}Welcome {{user.name}}{{else}}Enter{{/if}}</a>
+          <span class="uk-form-icon" uk-icon="icon: con"></span>
+        </li>
+        {{else}}
+        {{/if}}
+        <li>
+          <a href="#">{{#if user}} {{user.name}} {{else}}Enter{{/if}}</a>
           <div class="uk-navbar-dropdown">
             <ul class="uk-nav uk-navbar-dropdown-nav">
               <li class="uk-active">
@@ -76,7 +82,9 @@
 
   {{{body}}}
 
-
+  <!-- UIkit JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.1.4/js/uikit.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.1.4/js/uikit-icons.min.js"></script>
 </body>
 
 </html>

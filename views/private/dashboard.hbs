@@ -2,16 +2,16 @@
   <div class="uk-container uk-container-expand">
     <div class="uk-grid-small uk-flex uk-flex-middle" uk-grid>
       <div class="uk-width-auto">
-        <h1 class="uk-heading-small">My campaigns</h1>
+        <a href="/campaign/new" class="uk-button uk-button-primary" style="border-radius: 20px; background-color: #9b59b6; margin-top: 10px">New campaign</span></a>
       </div>
       <div class="uk-width-auto">
-        <a href="/campaign/new" class="uk-button uk-button-primary">Create campaign</a>
+        <a href="/zones/new" class="uk-button uk-button-primary" style="border-radius: 20px; background-color: #9b59b6; margin-top: 10px">New zone</span></a>
       </div>
     </div>
   </div>
 </section>
 <section class="uk-section uk-section-xsmall">
-  <div class="uk-container">
+  <div class="uk-container uk-container-large">
     <div class="uk-grid-match uk-child-width-1-4 uk-grid-small" uk-grid>
       {{#each campaigns as |campaign|}}
       {{> campaignCard campaign}}

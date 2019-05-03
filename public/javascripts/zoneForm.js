@@ -3,6 +3,7 @@
 const zoneHandler = new ZoneHandler();
 let btn = document.getElementById("zoneBtn");
 btn.disabled = true;
+
 mapboxgl.accessToken =
   "pk.eyJ1IjoibG9ja2VhczE2IiwiYSI6ImNqdTBsdzNsaDJuNDU0ZW1wdDhsemh1ZWgifQ.Eb6eV0uCOFbUPAEvSFGAFg";
 /* eslint-disable */
@@ -25,12 +26,28 @@ map.addControl(draw);
 if (zoneId) {
   // to add a polygon, it must be after adding the control to the map
   draw.add(createPolygon(coordinates));
+  map.setCenter(getCenterCoord(coordinates[0]))
   btn.disabled = false;
 }
 map.on("draw.create", updateArea);
 map.on("draw.delete", updateArea);
 map.on("draw.update", updateArea);
 document.addEventListener("submit", handleSubmit);
+
+// Add geolocate control to the map.
+const geoLocate = new mapboxgl.GeolocateControl({
+  positionOptions: {
+    enableHighAccuracy: true
+  },
+  trackUserLocation: true
+});
+map.addControl(geoLocate);
+geoLocate.on("geolocate", function(e) {
+  let lng=e.coords.longitude;
+  let lat=e.coords.latitude;
+  map.setCenter([lng,lat]);
+  map.setZoom(14);
+});
 
 function createPolygon(coords) {
   return {
@@ -43,7 +60,7 @@ function createBody(data) {
   let obj = {};
   const inpName = document.getElementById("zoneName");
   obj["name"] = inpName.value;
-  obj["coords"] = data.features[0].geometry.coordinates[0];
+  obj["coords"] = data.features[0].geometry.coordinates;
   return obj;
 }
 
@@ -59,11 +76,11 @@ function handleSubmit(e) {
   const body = createBody(draw.getAll());
   if (zoneId) {
     zoneHandler.updateZone(zoneId, body).then(res => {
-      window.location.replace("/zones");
+      window.location.replace(redirectUrl);
     });
   } else {
     zoneHandler.createZone(body).then(res => {
-      window.location.replace("/zones");
+      window.location.replace(redirectUrl);
     });
   }
 }

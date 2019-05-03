@@ -50,3 +50,15 @@ exports.checkRoles = (role, urlRedirect) => {
     }
   };
 };
+
+/**
+ * @function storeUrl
+ * Store in session the current Url
+ * @param  {express HTTP Request} req
+ * @param  {express HTTP Response} res
+ * @param  {function} next
+ */
+exports.storeUrl = (req, res, next) => {
+  req.session.previousUrl = req.originalUrl;
+  return next();
+};
