@@ -5,18 +5,18 @@
   type='text/css' />
 
 
-    <section class="uk-section">
+    <section class="uk-section-small">
       <div class="uk-container uk-container-large">
         <form action="" method="POST">
           <div class="uk-input-default uk margin-remove">
             <input id="zoneName" class="uk-input" type="text" name="name" placeholder="Zone name" value="{{zone.name}}"
               required>
           </div>
-          <div id='map' style='width: 100%; height: 550px;'></div>
+          <div id='map' style='width: 100%; height: 450px;'></div>
           <div class="uk-flex uk-flex-center uk-margin">
             <div class="uk-margin">
               <div class="uk-inline">
-                <button id="zoneBtn" class="uk-button uk-button-primary" type="submit">
+                <button id="zoneBtn" class="uk-button uk-button-primary" style="background-color: #9b59b6; border-radius: 20px" type="submit">
                   {{#if zone}}
                   Edit Zone
                   {{else}}
